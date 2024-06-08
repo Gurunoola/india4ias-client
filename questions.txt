@@ -1,0 +1,4 @@
+1: duplicate email id? 
+2: duplicate mobiles number?
+3: dob minmum age
+4: 
