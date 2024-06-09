@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { PageHeader } from '../../components';
-import * as _ from 'lodash';
-
 
 export default function ActionBar({title, mode}) { //change for new component
 

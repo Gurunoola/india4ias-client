@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as _ from 'lodash';
+import {capitalize, get} from 'lodash';
 import ToolBar from './toolBar';
 import { Collapsiable } from '../../components';
 import { useForm } from 'react-hook-form';
@@ -113,7 +113,7 @@ export default function Edit({ showProgressBar, props, data, title, id, onView, 
   function getForm() {
     return  <>
     <form onSubmit={handleSubmit((data) => { showProgressBar(true); onSubmit(data, isNewUser) })}>
-    <h5 className='pl-3 pt-3 pb-3 border-top border-bottom'>{_.capitalize(title)} Details</h5>
+    <h5 className='pl-3 pt-3 pb-3 border-top border-bottom'>{capitalize(title)} Details</h5>
       <div className='bg-white p-3'>
         <div className="row">
           <div className='col-md-4 mb-4'>
@@ -175,7 +175,7 @@ export default function Edit({ showProgressBar, props, data, title, id, onView, 
           <div className='col-md-4 mb-4'>
             <label>{labels.CLASS}</label>
             <select className='form-control' {...register("class.id", {...validationRules.required})}>
-              <AsyncDropdown dataType={'classes'} value={_.get(formData, 'class.id')} />
+              <AsyncDropdown dataType={'classes'} value={get(formData, 'class.id')} />
             </select>
             <ErrorMessage errors={errors} name="class.id" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
           </div>
@@ -224,7 +224,7 @@ export default function Edit({ showProgressBar, props, data, title, id, onView, 
       </div>} defaultCollapse={false} />
 
       <Collapsiable title={'Parents Details'} body={<><p className='bg-custom-gray p-3 m-0'>
-        <strong>{_.chain(formData).get('parents[0].relationship').capitalize().value()}</strong>
+        {/* <strong>{chain(formData).get('parents[0].relationship').capitalize().value()}</strong> */}
       </p>
         <div className='bg-white p-3'>
           <div className='row'>
@@ -282,21 +282,21 @@ export default function Edit({ showProgressBar, props, data, title, id, onView, 
             <div className='col-md-4 mb-4'>
               <label>{labels.GENDER}</label>
               <select className='form-control' {...register("parents[0].gender", basicValidationRules)}>
-                <AsyncDropdown dataType={'gender'} value={_.get(formData, 'parents[0].gender')} />
+                <AsyncDropdown dataType={'gender'} value={get(formData, 'parents[0].gender')} />
               </select>
               <ErrorMessage errors={errors} name="parents[0].gender" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
             <div className='col-md-4 mb-4'>
               <label>{labels.RELATIONSHIP}</label>
               <select className='form-control' {...register("parents[0].relationship", basicValidationRules)}>
-                <AsyncDropdown dataType={'relationship'} value={_.get(formData, 'parents[0].relationship')} />
+                <AsyncDropdown dataType={'relationship'} value={get(formData, 'parents[0].relationship')} />
               </select>
               <ErrorMessage errors={errors} name="parents[0].relationship" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
           </div>
         </div>
         <p className='bg-custom-gray p-3 m-0'>
-          <strong>{_.chain(formData).get('parents[1].relationship').capitalize().value()}</strong>
+          {/* <strong>{chain(formData).get('parents[1].relationship').capitalize().value()}</strong> */}
         </p>
         <div className='bg-white p-3'>
           <div className='row'>
@@ -354,14 +354,14 @@ export default function Edit({ showProgressBar, props, data, title, id, onView, 
             <div className='col-md-4 mb-4'>
               <label>{labels.GENDER}</label>
               <select className='form-control' {...register("parents[1].gender", basicValidationRules)}>
-                <AsyncDropdown dataType={'gender'} value={ _.get(formData, 'parents[1].gender')} />
+                <AsyncDropdown dataType={'gender'} value={ get(formData, 'parents[1].gender')} />
               </select>
               <ErrorMessage errors={errors} name="parents[1].gender" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
             <div className='col-md-4 mb-4'>
               <label>{labels.RELATIONSHIP}</label>
               <select className='form-control' {...register("parents[1].relationship", basicValidationRules)}>
-                <AsyncDropdown dataType={'relationship'} value={_.get(formData, 'parents[1].relationship')} />
+                <AsyncDropdown dataType={'relationship'} value={get(formData, 'parents[1].relationship')} />
               </select>
               <ErrorMessage errors={errors} name="parents[1].relationship" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>

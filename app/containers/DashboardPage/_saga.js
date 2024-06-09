@@ -2,7 +2,7 @@ import { put, call, takeLatest, all, delay } from 'redux-saga/effects';
 import { events as EVENT } from '../ConstantManager';
 import { doServerRequest, constructEvents, getReducerEvent } from '../../services/axiosServices';
 import { componentNameCaps } from './componentName';
-import _ from 'lodash';
+import {get, omit } from 'lodash';
 
 const url = `/students`;
 
@@ -22,8 +22,8 @@ const doGetAll = options => {
 function* getAll(params) {
   const { response, error } = yield call(doGetAll, params);
   const { event, message } = constructEvents(response, error, 'list', componentNameCaps);
-  const data = _.get(response, 'data.results', []);
-  const rest = _.omit(_.get(response, 'data', []), 'results');
+  const data = get(response, 'data.results', []);
+  const rest = omit(get(response, 'data', []), 'results');
   yield put({ type: event, result: {data: [...data], ...rest} || undefined, message });
 };
 
@@ -34,8 +34,8 @@ const doGetOne = options => {
 function* getOne(params) {
   const { response, error } = yield call(doGetOne, params);
   const { event, message } = constructEvents(response, error, 'get', componentNameCaps);
-  const data = _.get(response, 'result.results', []);
-  const rest = _.omit(response, 'result.results');
+  const data = get(response, 'result.results', []);
+  const rest = omit(response, 'result.results');
   yield put({ type: event, result: {...data, ...rest} || undefined, message });
 };
 
@@ -57,8 +57,8 @@ function* addOne(params) {
 
   const { response, error } = yield call(doAddOne, params);
   const { event, message } = constructEvents(response, error, 'post', componentNameCaps);
-  const data = _.get(response, 'data', []);
-  // const rest = _.omit(_.get(response, 'data', []), 'results');
+  const data = get(response, 'data', []);
+  // const rest = omit(get(response, 'data', []), 'results');
   yield put({ type: event, result: {...data} || undefined, message });
 
 
@@ -75,8 +75,8 @@ function* removeOne(params) {
 
   const { response, error } = yield call(doRemoveOne, params);
   const { event, message } = constructEvents(response, error, 'delete', componentNameCaps);
-  const data = _.get(response, 'data.results', []);
-  //const rest = _.omit(_.get(response, 'data', []), 'results');
+  const data = get(response, 'data.results', []);
+  //const rest = omit(get(response, 'data', []), 'results');
   yield put({ type: event, result: {...data} || undefined, message });
 
   // const { response, error } = yield call(doRemoveOne, params);

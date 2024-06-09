@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import AsyncDropdown from '../AsyncDropdown/Loadable';
 import FormBuilder from '../../components/formBuilder';
 import { getUserRole } from '../../services/userServices';
+import { fileToBase64 } from '../../utils/fileToBase64';
+import { get } from 'lodash'
 import {
   useForm,
   ErrorMessage,
-  _,
   ToolBar,
   labels,
   validationRules,
@@ -15,7 +16,7 @@ import {
   useHistory
 } from './imports'
 
-export function Edit({ showProgressBar, data, title, id, onView, onSubmit }) {
+export function Edit({ showProgressBar, data, title, id, onView, onFormSubmit }) {
   const [formData, setFormData] = useState({});
   const [isNewUser, setIsNewUser] = useState(false);
   const [isSaveAndNew, setIsSaveAndNew] = useState(false);
@@ -27,9 +28,36 @@ export function Edit({ showProgressBar, data, title, id, onView, onSubmit }) {
 
 
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({
-    defaultValues: {}
+  const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm({
+    defaultValues: {
+      "name": "John Doe",
+      "gender": "male",
+      "dob": "1990-01-01",
+      "phone_number": "9876543210",
+      "alternate_phone_number": "9123456780",
+      "email": "john.doe@example.com",
+      "address": "123 Main St, Anytown, USA",
+      "qualification": "Bachelor of Science",
+      "course": "upsc",
+      "optional_subject": "Mathematics",
+      "attempts_given": 2,
+      "referral_source": "friends",
+      "counseling_satisfaction": "Very Satisfied",
+      "contact_preference": "1",
+      "status": "New",
+      "rescheduled_date": null,
+      "remarks": "Interested in advanced courses",
+      "dp_path": null
+  }
   });
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const base64 = await fileToBase64(file);
+      setValue('dp_path', base64);
+    }
+  };
   useEffect(() => {
     if(isAdmin) setIsEditable(getUserRole() === 'admin'? true : false)
     if (id && id !== 'new') {
@@ -88,7 +116,8 @@ export function Edit({ showProgressBar, data, title, id, onView, onSubmit }) {
 
   function getForm() {
     return <>
-      <form id='form' onSubmit={handleSubmit((data) => { onSubmit(data, isNewUser, isSaveAndNew) })}>
+      <form id='form' onSubmit={handleSubmit((data) => { onFormSubmit(data, true, isSaveAndNew) })}>
+       
         <div className='bg-white p-3'>
           <div className="row">
             <div className='col-md-4 mb-4'>
@@ -110,12 +139,12 @@ export function Edit({ showProgressBar, data, title, id, onView, onSubmit }) {
             </div>
             <div className='col-md-4 mb-4'>
               <label>{labels.PRIMARY_MOBILE}{astrix}</label>
-              <input type='tel' disabled={!isEditable} className='form-control' {...register("phoneNumber", { ...validationRules.required, ...validationRules.phone })} />
+              <input type='tel' disabled={!isEditable} className='form-control' {...register("phone_number", { ...validationRules.required, ...validationRules.phone })} />
               <ErrorMessage errors={errors} name="phoneNumber" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
             <div className='col-md-4 mb-4'>
               <label>{labels.SECONDARY_MOBILE}</label>
-              <input type='tel' disabled={!isEditable} className='form-control' {...register("alternatePhoneNumber", { ...validationRules.phone })} />
+              <input type='tel' disabled={!isEditable} className='form-control' {...register("alternate_phone_number", { ...validationRules.phone })} />
               <ErrorMessage errors={errors} name="alternatePhoneNumber" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
             <div className='col-md-4 mb-4'>
@@ -142,34 +171,40 @@ export function Edit({ showProgressBar, data, title, id, onView, onSubmit }) {
             </div>
             <div className='col-md-4 mb-4'>
               <label>{labels.OPTIONAL_SUBJECT}{astrix}</label>
-              <input type='text' disabled={!isEditable} className='form-control' {...register("optionalSubject", basicValidationRules)} />
+              <input type='text' disabled={!isEditable} className='form-control' {...register("optional_subject", basicValidationRules)} />
               <ErrorMessage errors={errors} name="optionalSubject" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
             <div className='col-md-4 mb-4'>
               <label>{labels.ATTEMPTS_GIVEN}{astrix}</label>
-              <input type='text' disabled={!isEditable} className='form-control' {...register("attemptsGiven", basicValidationRules)} />
+              <input type='number' disabled={!isEditable} className='form-control' {...register("attempts_given", {...validationRules.required, ...validationRules.maxLength50})} />
               <ErrorMessage errors={errors} name="attemptsGiven" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
             <div className='col-md-4 mb-4'>
               <label>{labels.REFERAL_SOURCE}{astrix}</label>
-              <select disabled={!isEditable} className='form-control' {...register("referralSource", { ...validationRules.required })}>
-                <AsyncDropdown dataType={'referralSource'} value={_.get(formData, 'referralSource')} />
+              <select disabled={!isEditable} className='form-control' {...register("referral_source", { ...validationRules.required })}>
+                <AsyncDropdown dataType={'referral_source'} value={get(formData, 'referral_source')} />
               </select>
-              {/* <input type='text' disabled={!isEditable} className='form-control' {...register("referralSource", basicValidationRules)} /> */}
-              <ErrorMessage errors={errors} name="referralSource" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
+              {/* <input type='text' disabled={!isEditable} className='form-control' {...register("referral_source", basicValidationRules)} /> */}
+              <ErrorMessage errors={errors} name="referral_source" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
             <div className='col-md-4 mb-4'>
               <label>{labels.COUNSELING_SATISFACTION}{astrix}</label>
-              <input type='text' disabled={!isEditable} className='form-control' {...register("counselingSatisfaction", basicValidationRules)} />
-              <ErrorMessage errors={errors} name="counselingSatisfaction" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
+              <input type='text' disabled={!isEditable} className='form-control' {...register("counseling_satisfaction", basicValidationRules)} />
+              <ErrorMessage errors={errors} name="counseling_satisfaction" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
             <div className='col-md-6 mb-6'>
               <label>{labels.CONTACT_PREFRENCE}{astrix}</label>
-              <select disabled={!isEditable} className='form-control' {...register("contactPreference", basicValidationRules)}>
+              <select disabled={!isEditable} className='form-control' {...register("contact_preference", {...validationRules.required})}>
                 <AsyncDropdown dataType={'yesNo'} />
               </select>
-              <ErrorMessage errors={errors} name="contactPreference" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
+              <ErrorMessage errors={errors} name="contact_preference" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
+            <div className='col-md-4 mb-4'>
+              <label>Upload Photo:</label>
+              <input className='form-control'  type="file" onChange={handleFileChange} accept="image/*" />
+              <input type="hidden" {...register('dp_path')} />
+              <ErrorMessage errors={errors} name="dp_path" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
+            </div> 
             {/* <div className='col-md-4 mb-4'>
               <label>{labels.STATUS}{astrix}</label>
               <select className='form-control' {...register("status", basicValidationRules)}>
@@ -193,7 +228,7 @@ export function Edit({ showProgressBar, data, title, id, onView, onSubmit }) {
             <div className='d-flex w-100 justify-content-end'>
               <input type="submit" value={isNewUser ? labels.BUTTON_SAVE : labels.BUTTON_UPDATE} className='float-end btn btn-inline btn-primary mr-2' />
               <input type="button" value={labels.BUTTON_RESET} onClick={() => { reset({ ...data[0] }); }} className='float-end btn btn-inline btn-warning mr-2' />
-              
+              <a href='/login' className='float-end btn btn-inline btn-gray mr-2'>Back</a>
             </div>
           </div>
       </form>
@@ -204,8 +239,7 @@ export function Edit({ showProgressBar, data, title, id, onView, onSubmit }) {
     <>
       {/* <ToolBar title='/' mode={isNewUser ? 'Create New' : 'Edit'} actionButtons={actionButtons} /> */}
       <div className="pageContent bg-white ">
-        {Object.keys(formData).length > 0 && getForm(formData)}
-        {isNewUser && getForm()}
+        {getForm()}
       </div>
     </>
   );

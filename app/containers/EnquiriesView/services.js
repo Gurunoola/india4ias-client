@@ -55,8 +55,8 @@ const update = async (data) => {
   const {id} = data;
   delete data.id;
   const {response, error} = await doServerRequest({
-    url: `/${API_ROUTE}/${id}`,
-    method: 'PATCH',
+    url: `/${API_ROUTE}/${id}?_method=PUT`,
+    method: 'POST',
     data,
   });
   if (error) {

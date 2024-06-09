@@ -1,11 +1,12 @@
 import { labels } from "./containers/ConstantManager";
 
 const backendConfig = {
-  domain: 'localhost',
-  port: 8000,
+  protocol: 'https',
+  domain: 'india4ias.vocable.pro',
+  port: undefined,
   commonHeaders: {
     'Content-Type': 'application/json',
-    'accept': '*/*',
+    'accept': 'application/json',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': '*',
   }
@@ -82,7 +83,7 @@ const httpCodes = {
 const brandConfig = {
   name: 'V.E.D.I',
   abrivation: 'V.E.D.I',
-  website: 'https://www.vediapp.com/',
+  website: '/#',
   logo: require('./img/brand.svg'),
   icon: require('./img/brandLogoIcon.png'),
   favIcon: require('./img/favicon.png'),
@@ -100,19 +101,20 @@ const appConfig = {
   showTopBarMessagesIcon: false,
   showTermsAndPrivacyPolicy: false,
   showRegistartionLink: false,
+  uploadImageBaseUrl: 'https://india4ias.vocable.pro'
 }
 
 const dropDownOptions = {
   gender:['male', 'female', 'other'], 
   roles:['user', 'admin', 'superAdmin', 'guest'],
   course:[ 'upsc','kpsc'],
-  yesNo:['yes','no'],
+  yesNo:[1, 0],
   status:['qualified', 'unqualified', 'converted', 'rescheduled'],
   bloodGroup:[ labels.BLOOD_GROUP_AP,labels.BLOOD_GROUP_AN,labels.BLOOD_GROUP_BP,labels.BLOOD_GROUP_BN,labels.BLOOD_GROUP_ABP,
    labels.BLOOD_GROUP_ABN,labels.BLOOD_GROUP_OP,labels.BLOOD_GROUP_ON],
   maritalStatus:[ labels.MARRIED, labels.UNMARRIED],
   relationship:[ labels.FATHER, labels.MOTHER, labels.GUARDIAN],
-  referralSource: ['friends', 'facebook', 'instagram', 'youtube', 'newspaper', 'others']
+  referral_source: ['friends', 'facebook', 'instagram', 'youtube', 'newspaper', 'others']
 
 }
 

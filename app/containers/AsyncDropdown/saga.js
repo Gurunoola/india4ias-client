@@ -1,7 +1,7 @@
 import { put, call, takeLatest, all } from 'redux-saga/effects';
 import { events as EVENT } from '../ConstantManager';
 import { doServerRequest, constructEvents } from '../../services/axiosServices';
-
+import {get, omit} from 'lodash'
 const {  
   ROLES:{
     LIST_GET_REQUESTED: rolesGetRequested
@@ -43,8 +43,8 @@ function* getAllClasses(params) {
   const url = `/class`;
   const { response, error } = yield call(doGetAll, params, url);
   const { event, message } = constructEvents(response, error, 'list', 'CLASSES');
-  const data = _.get(response, 'data.results', []);
-  const rest = _.omit(_.get(response, 'data', []), 'results');
+  const data = get(response, 'data.results', []);
+  const rest = omit(get(response, 'data', []), 'results');
   yield put({ type: event, result: {data: [...data], ...rest} || undefined, message });
 
   // const { response, error } = yield call(doGetAll, params, url);
@@ -56,8 +56,8 @@ function* getAllTeachers(params) {
   const url = `/teachers`;
   const { response, error } = yield call(doGetAll, params, url);
   const { event, message } = constructEvents(response, error, 'list', 'TEACHERS');
-  const data = _.get(response, 'data.results', []);
-  const rest = _.omit(_.get(response, 'data', []), 'results');
+  const data = get(response, 'data.results', []);
+  const rest = omit(get(response, 'data', []), 'results');
   yield put({ type: event, result: {data: [...data], ...rest} || undefined, message });
 }
 

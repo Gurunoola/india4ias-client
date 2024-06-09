@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import {get, keys, pick} from 'lodash';
 import SecureLS from 'secure-ls';
 import { globalConfigs } from '../globalConfigs';
 
@@ -19,9 +19,9 @@ export function getUser() {
 
 export function getUserRole(props) {
     const {user} = getUserDataFromLocal();
-    // const roldId = _.get(userData, 'roleId', {})
-    // const { role } = _.keys(userObj).length > 0 ? userObj : { user: { role: undefined } }
-    return _.get(user, 'role', {});
+    // const roldId = get(userData, 'roleId', {})
+    // const { role } = keys(userObj).length > 0 ? userObj : { user: { role: undefined } }
+    return get(user, 'role', {});
 }
 
 export function getAccessToken() {
@@ -36,7 +36,7 @@ export function getAccessTokenWithExpires() {
 
 export function getUserId() {
     const userData = getUserDataFromLocal();
-    return { data: _.pick(userData, ['id']) };
+    return { data: pick(userData, ['id']) };
 }
 
 
@@ -61,5 +61,5 @@ const parseJwt = (token) => {
 
 export function getUserRefreshToken() {
     let userData = getUserDataFromLocal();
-    return _.get(userData, 'tokens.refresh.token', undefined)
+    return get(userData, 'tokens.refresh.token', undefined)
 }

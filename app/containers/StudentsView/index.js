@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './styles.css';
+import { omit, isEqual } from 'lodash'
 import { 
-  _ , 
   getList, post, 
   update, 
   remove, 
@@ -83,7 +83,7 @@ export default function Students(props) {
     const {response, error} = await getList({ page, limit, populate: POPULATE })
     if (response && response.data.results) {
       setListData(response.data.results)
-      setPaginations(_.omit(response.data, ['results']))
+      setPaginations(omit(response.data, ['results']))
       showProgressBar(false)
     } else {
       showProgressBar(false)
@@ -144,7 +144,7 @@ export default function Students(props) {
     const data = { ...values, class: values.class.id };  
     if (!newUser) {
       const oldData = listData.find(p => p.id === id);
-      if (_.isEqual(oldData, data)) {
+      if (isEqual(oldData, data)) {
         toastWarning(toastMessages.UPDATES.NO_CHANGES_MADE);
         showProgressBar(false);
         return;

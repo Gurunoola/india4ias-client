@@ -2,7 +2,7 @@ import { put, call, takeLatest, all } from 'redux-saga/effects';
 import { events as EVENT } from '../ConstantManager';
 import { doServerRequest, constructEvents } from '../../services/axiosServices';
 import { logger } from '../../services';
-
+import { get } from 'lodash'
 const url = '/login';
 
 const {
@@ -26,7 +26,7 @@ function* userlogin(data) {
   const { response, error } = yield call(doLogin, data);
   const { event, message } = constructEvents(response, error, 'get', 'AUTH');
   const yeildedResonse = response ? response.data : []
-  const resData = _.get(yeildedResonse, 'data', []);
+  const resData = get(yeildedResonse, 'data', []);
   yield put({ type: event, result: {...resData } || undefined, message });
 }
 

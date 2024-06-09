@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import AsyncDropdown from '../AsyncDropdown/Loadable';
 import FormBuilder from '../../components/formBuilder';
 import { getUserRole } from '../../services/userServices';
+import { fileToBase64 } from '../../utils/fileToBase64';
+import {get} from 'lodash'
 import {
   useForm,
   ErrorMessage,
-  _,
   ToolBar,
   labels,
   validationRules,
@@ -27,9 +28,19 @@ export function Edit({ showProgressBar, data, title, id, onView, onSubmit }) {
 
 
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({
+  const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm({
     defaultValues: {}
   });
+
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const base64 = await fileToBase64(file);
+      setValue('dp_path', base64);
+    }
+  };
+  
   useEffect(() => {
     if(isAdmin) setIsEditable(getUserRole() === 'admin' || 'superAdmin' ? true : false)
     if (id && id !== 'new') {
@@ -118,13 +129,13 @@ export function Edit({ showProgressBar, data, title, id, onView, onSubmit }) {
             </div>
             <div className='col-md-4 mb-4'>
               <label>{labels.PRIMARY_MOBILE}{astrix}</label>
-              <input type='tel' disabled={!isEditable} className='form-control' {...register("phoneNumber", { ...validationRules.required, ...validationRules.phone })} />
-              <ErrorMessage errors={errors} name="phoneNumber" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
+              <input type='tel' disabled={!isEditable} className='form-control' {...register("phone_number", { ...validationRules.required, ...validationRules.phone })} />
+              <ErrorMessage errors={errors} name="phone_number" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
             <div className='col-md-4 mb-4'>
               <label>{labels.SECONDARY_MOBILE}</label>
-              <input type='tel' disabled={!isEditable} className='form-control' {...register("alternatePhoneNumber", { ...validationRules.phone })} />
-              <ErrorMessage errors={errors} name="alternatePhoneNumber" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
+              <input type='tel' disabled={!isEditable} className='form-control' {...register("alternate_phone_number", { ...validationRules.phone })} />
+              <ErrorMessage errors={errors} name="alternate_phone_number" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
             <div className='col-md-4 mb-4'>
               <label>{labels.EMAIL}{astrix}</label>
@@ -150,51 +161,57 @@ export function Edit({ showProgressBar, data, title, id, onView, onSubmit }) {
             </div>
             <div className='col-md-4 mb-4'>
               <label>{labels.OPTIONAL_SUBJECT}{astrix}</label>
-              <input type='text' disabled={!isEditable} className='form-control' {...register("optionalSubject", basicValidationRules)} />
-              <ErrorMessage errors={errors} name="optionalSubject" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
+              <input type='text' disabled={!isEditable} className='form-control' {...register("optional_subject", basicValidationRules)} />
+              <ErrorMessage errors={errors} name="optional_subject" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
             <div className='col-md-4 mb-4'>
               <label>{labels.ATTEMPTS_GIVEN}{astrix}</label>
-              <input type='number' disabled={!isEditable} className='form-control' {...register("attemptsGiven", {...validationRules.required, ...validationRules.maxLength50})} />
-              <ErrorMessage errors={errors} name="attemptsGiven" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
+              <input type='number' disabled={!isEditable} className='form-control' {...register("attempts_given", {...validationRules.required, ...validationRules.maxLength50})} />
+              <ErrorMessage errors={errors} name="attempts_given" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
             <div className='col-md-4 mb-4'>
               <label>{labels.REFERAL_SOURCE}{astrix}</label>
-              <select disabled={!isEditable} className='form-control' {...register("referralSource", { ...validationRules.required })}>
-                <AsyncDropdown dataType={'referralSource'} value={_.get(formData, 'referralSource')} />
+              <select disabled={!isEditable} className='form-control' {...register("referral_source", { ...validationRules.required })}>
+                <AsyncDropdown dataType={'referral_source'} value={get(formData, 'referral_source')} />
               </select>
               {/* <input type='text' disabled={!isEditable} className='form-control' {...register("referralSource", basicValidationRules)} /> */}
-              <ErrorMessage errors={errors} name="referralSource" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
+              <ErrorMessage errors={errors} name="referral_source" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
             <div className='col-md-4 mb-4'>
               <label>{labels.COUNSELING_SATISFACTION}{astrix}</label>
-              <input type='text' disabled={!isEditable} className='form-control' {...register("counselingSatisfaction", basicValidationRules)} />
-              <ErrorMessage errors={errors} name="counselingSatisfaction" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
+              <input type='text' disabled={!isEditable} className='form-control' {...register("counseling_satisfaction", basicValidationRules)} />
+              <ErrorMessage errors={errors} name="counseling_satisfaction" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
             <div className='col-md-4 mb-4'>
               <label>{labels.CONTACT_PREFRENCE}{astrix}</label>
-              <select disabled={!isEditable} className='form-control' {...register("contactPreference", basicValidationRules)}>
+              <select disabled={!isEditable} className='form-control' {...register("contact_preference", {...validationRules.required})}>
                 <AsyncDropdown dataType={'yesNo'} />
               </select>
-              <ErrorMessage errors={errors} name="contactPreference" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
+              <ErrorMessage errors={errors} name="contact_preference" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
             <div className='col-md-4 mb-4'>
               <label>{labels.STATUS}{astrix}</label>
-              <select className='form-control' {...register("status", basicValidationRules)}>
+              <select className='form-control' {...register("status")}>
                 <AsyncDropdown dataType={'status'} />
               </select>
               <ErrorMessage errors={errors} name="status" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
             <div className='col-md-4 mb-4'>
               <label>{labels.RESCHEDULED_DATE}{astrix}</label>
-              <input type='date' className='form-control' {...register("rescheduledDate", basicValidationRules)} />
-              <ErrorMessage errors={errors} name="rescheduledDate" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
+              <input type='date' className='form-control' {...register("rescheduled_date")} />
+              <ErrorMessage errors={errors} name="rescheduled_date" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
             <div className='col-md-4 mb-4'>
               <label>{labels.REMARKS}</label>
               <input type='text' className='form-control' {...register("remarks", basicNonRequired)} />
               <ErrorMessage errors={errors} name="remarks" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
+            <div className='col-md-4 mb-4'>
+              <label>Upload Photo:</label>
+              <input type="file" onChange={handleFileChange} accept="image/*" />
+              <input type="hidden" {...register('dp_path', { required: true })} />
+              <ErrorMessage errors={errors} name="dp_path" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
+            </div>  
           </div>
         </div>
       </form>

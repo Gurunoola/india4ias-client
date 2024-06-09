@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as _ from 'lodash';
+import {indexOf} from 'lodash';
 import { Link } from 'react-router-dom';
 import { Dropdown, Nav, NavDropdown, Tooltip, NavItem, NavLink } from 'react-bootstrap';
 import { ClientLogo, Icon } from '../../components';
@@ -26,7 +26,7 @@ function SideBar(props) {
             {Object.keys(props.routes).map((item, index) => {
               const id = `navbarDropdown_${index}`;
               const { title, path, icon, subMenu, roles, enabled } = props.routes[item];
-              if (_.indexOf(roles, role) === -1 || !enabled) return undefined;
+              if (indexOf(roles, role) === -1 || !enabled) return undefined;
               // const subMenuClass = 
               if (!subMenu) {
                 return <Nav.Item key={index} id="nav-dropdown" className=''>
@@ -48,7 +48,7 @@ function SideBar(props) {
                 <Dropdown.Menu key={`dropdown-${index}`} className='dropdown-menu p-0 m-0 position-relative rounded-0 bg-gray-100 sideBarSubMenuCustom'>
                   {
                     Object.keys(subMenu).map((sub, index) => {
-                      if (_.indexOf(subMenu[sub].roles, role) === -1 || !subMenu[sub].enabled) return undefined;
+                      if (indexOf(subMenu[sub].roles, role) === -1 || !subMenu[sub].enabled) return undefined;
 
                       return <Dropdown.Item eventKey="1" className="bg-gray-100" >
                         <Link key={`sub-${id}-${index}`} className="dropdown-item text-capitalize " to={subMenu[sub].path}>

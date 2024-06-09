@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Students from './index'; //change for new component
+import EnquiriesForm from './index'; //change for new component
 import { allToastActions, events } from './imports';
 
 const mapStateToProps = state => ({ state });
@@ -15,4 +15,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Students); //change for new component
+)(EnquiriesForm); //change for new component

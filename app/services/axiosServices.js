@@ -1,5 +1,5 @@
 import axios from 'axios';
-import _ from 'lodash';
+import {get} from 'lodash';
 import { getAccessToken } from './userServices';
 import { globalConfigs } from '../globalConfigs';
 import { events as EVENT } from '../containers/ConstantManager';
@@ -8,9 +8,13 @@ import { events as EVENT } from '../containers/ConstantManager';
 const { NETWORK_ERROR, UNAUTORIZED } = EVENT
 
 export const doServerRequest = async ({ data, url, method, isguest=false }) => {
-  const serviceDomain = globalConfigs.backendConfig.domain; // change as per your domain
-  const PORT = globalConfigs.backendConfig.port;
-  const baseUrl = `http://${serviceDomain}:${PORT}/api`;
+  const {domain: DOMAIN, port: PORT, protocol: PROTOCOL} = globalConfigs.backendConfig;
+  const baseDomain = `${PROTOCOL}://${DOMAIN}`;
+  let baseUrl = baseDomain;
+  if(PORT)
+    baseUrl = `${baseDomain}:${PORT}/api`;
+  else
+    baseUrl = `${baseDomain}/api`;
   const headers = {
     ...globalConfigs.backendConfig.commonHeaders,
     Authorization: `Bearer ${getAccessToken()}`
@@ -27,7 +31,7 @@ export const doServerRequest = async ({ data, url, method, isguest=false }) => {
     const response = await axios(baseConfig);
     return ({ response });
   } catch (e) {
-    const error = _.get(e, 'response.data', {});
+    const error = get(e, 'response.data', {});
 
     if (error.statusCode === 401 || error.code === 401 && getAccessToken()) {
       window.location.href = "/logout";

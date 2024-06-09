@@ -1,5 +1,6 @@
 import moment from "moment";
-
+import { globalConfigs } from "../globalConfigs";
+import { isUndefined, isNull} from 'lodash'
 export const capitalizeString = (text) => {
     const temp = text.replace(/([A-Z])/g, " $1");
     const title = temp.charAt(0).toUpperCase() + temp.slice(1);
@@ -17,7 +18,7 @@ export const dateFormat = (d, to='DD-MM-YYYY') => {
 }
 
 export const isUndefinedOrNull = (value) => {
-    return _.isUndefined(value) || _.isNull(value);
+    return isUndefined(value) || isNull(value);
 }
 
 export const isToday = (d)=>{
@@ -25,6 +26,11 @@ export const isToday = (d)=>{
     const today = new Date();
     return date.getDate() === today.getDate() && date.getMonth() === today.getMonth()
 };
+
+export const getUploadImageUrl = (img)=>{
+    const {appConfig: {uploadImageBaseUrl = '/' }} = globalConfigs
+    return uploadImageBaseUrl+img;
+}
 
 export const alterView = (mode) => {
     let cl = 'col-md-12 mr-3';

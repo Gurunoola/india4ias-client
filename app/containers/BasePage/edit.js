@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import * as _ from 'lodash';
 import { schema as uiSchema } from './Schema';
 
 export default function Edit({initValue, uriId, title, onSubmit}) {

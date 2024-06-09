@@ -87,8 +87,8 @@ export default function App(props) {
       <BetaFlag />
       <Switch>
         <Route exact path="/login" render={ (props) => <Login {...props} rootPage={rootPage} /> } />
-        <Route exact path="/enquiryForm" render={ (props) => <EnquiryForm {...props} rootPage={rootPage} /> } />
-      </Switch>
+        <Route exact path="/enquiryForm" render={ (props) => <EnquiriesForm {...props} rootPage={rootPage} setShowProgressBar={setShowProgressBar} setShowSideBar={setShowSideBar} /> } />
+      
         {isUserVerified ? (
           <div className="App position-fixed w-100 h-100" id="wrapper">
             <SideBar isMobile={isMobile} showSideBar={showSideBar} rootPage={rootPage} setShowSideBar={setShowSideBar} routes={globalConfigs.routes} userRole={getUserRole()}  />
@@ -113,7 +113,7 @@ export default function App(props) {
                   <Route exact path="/enquiries" heading="Enquiries" render={ checkRole('enquiries') ? (props) => <Enquiries {...props} setShowProgressBar={setShowProgressBar} setShowSideBar={setShowSideBar} /> : (props) => <PageNotFound {...props} unauthorized={true} /> }/>
 
                   {/* EnquirieFromView routes */}
-                  <Route exact path="/enquiriesForm" heading="Enquiries Form" render={ checkRole('enquiriesForm') ? (props) => <EnquiriesForm {...props} setShowProgressBar={setShowProgressBar} setShowSideBar={setShowSideBar} /> : (props) => <PageNotFound {...props} unauthorized={true} /> }/>
+                  {/* <Route exact path="/enquiriesForm" heading="Enquiries Form" render={ checkRole('guest') ? (props) => <EnquiriesForm {...props} setShowProgressBar={setShowProgressBar} setShowSideBar={setShowSideBar} /> : (props) => <PageNotFound {...props} unauthorized={true} /> }/> */}
 
                   <Route exact path="/logout" render={ (props) => <Logout {...props} /> } />
                   <Route path="*" component={PageNotFound} />    
@@ -128,7 +128,7 @@ export default function App(props) {
             <Redirect to={{ pathname: '/login' }} />
           </>
         )}
-
+    </Switch>
 
     </>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as _ from 'lodash';
+import {get, toUpper, capitalize, has, toLower} from 'lodash';
 import { globalConfigs } from '../../globalConfigs'
 import Select from 'react-select'
 import { Controller } from 'react-hook-form';
@@ -47,7 +47,7 @@ export default function AsyncDropdown(props) { //change for new component
   const optionsValues = {
     "classes": ['id', 'name', 'section'],
     "teachers": ['id', 'firstName', 'lastName'],
-    "subjects": ['id', 'name'],
+    "subjects": ['id', 'name']
   }
 
   // All toast actions
@@ -68,15 +68,15 @@ export default function AsyncDropdown(props) { //change for new component
   useEffect(() => {
     switch (dataType) {
       case 'classes':
-        result = _.get(state, 'asyncDropdown.classes.result.data', undefined);
+        result = get(state, 'asyncDropdown.classes.result.data', undefined);
         if (!result) { getClassesList(); getTeachersList(); }
         break;
       case 'teachers':
-        result = _.get(state, 'asyncDropdown.teachers.result.data', undefined);
+        result = get(state, 'asyncDropdown.teachers.result.data', undefined);
         if (!result) { getTeachersList(); getClassesList() }
         break;
       case 'subjects':
-        result = _.get(state, 'asyncDropdown.classes.result.data', undefined);
+        result = get(state, 'asyncDropdown.classes.result.data', undefined);
         if (!result) { getSubjectsList(); }
         break;
       case 'bloodGroup':
@@ -103,8 +103,8 @@ export default function AsyncDropdown(props) { //change for new component
         setOptions(prepOptions(dropDownOptions.status, true));
         setLoading(false);
         break;
-      case 'referralSource':
-        setOptions(prepOptions(dropDownOptions.referralSource, true));
+      case 'referral_source':
+        setOptions(prepOptions(dropDownOptions.referral_source, true));
         setLoading(false);
         break;
       case 'yesNo':
@@ -114,13 +114,13 @@ export default function AsyncDropdown(props) { //change for new component
   }, [])
 
   useEffect(() => {
-    const d = _.get(state, `asyncDropdown.${dataType}.type`)
+    const d = get(state, `asyncDropdown.${dataType}.type`)
     switch (d) {
       case teachersGetSuccess:
       case classesGetSuccess:
       case subjectsGetSuccess:
-        if (_.get(state, `asyncDropdown.${dataType}.result.data`))
-          setOptions(prepOptions(_.get(state, `asyncDropdown.${dataType}.result.data`)));
+        if (get(state, `asyncDropdown.${dataType}.result.data`))
+          setOptions(prepOptions(get(state, `asyncDropdown.${dataType}.result.data`)));
         else
           setOptions([], null);
         setLoading(false);
@@ -128,13 +128,25 @@ export default function AsyncDropdown(props) { //change for new component
     }
   }, [state]);
 
+  // Define the labelPrep function
+function labelPrep(element) {
+  // Customize the transformation logic as needed
+  if (element === 1) {
+    return 'YES';
+  } else if (element === 0) {
+    return 'NO';
+  } else {
+    return element;
+  }
+}
+
   const prepOptions = (data = [], isLocal = false) => {
     const retData = [];
     if (isLocal) {
       data.forEach(element => {
         retData.push({
-          value: dataType === 'bloodGroup' ? _.toUpper(element) : _.toLower(element),
-          label: dataType === 'bloodGroup' ? _.toUpper(element) : _.capitalize(element),
+          value: dataType === 'bloodGroup' ? toUpper(element) : toLower(element),
+          label: dataType === 'bloodGroup' ? toUpper(element) : capitalize(labelPrep(element)),
         })
       });
       return retData;
@@ -153,7 +165,7 @@ export default function AsyncDropdown(props) { //change for new component
     const k = [];
     if (isMulti) {
       values.forEach(element => {
-        if (_.has(element, 'id')) {
+        if (has(element, 'id')) {
           k.push({ value: element.id, label: `${element.name} ${element.section}` });
         }
         else {

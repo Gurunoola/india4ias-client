@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { omit, isEqual, find, upperCase } from 'lodash';
 import './styles.css';
 import { 
   _ , 
@@ -23,6 +24,7 @@ import {
 
 export default function EnquiriesForm(props) {
   const title = componentNameCapitalize;
+  const { appConfig, clientConfig } = globalConfigs;
   const {TABLE_LIMIT, TABLE_PAGE, POPULATE, DEFAULT_COL_SIZE} = config;
   const actionButtons = [];
   const columns = [
@@ -97,7 +99,7 @@ export default function EnquiriesForm(props) {
     const {response, error} = await getList({ page, limit, populate: POPULATE })
     if (response && response.data.results) {
       setListData(response.data.results)
-      setPaginations(_.omit(response.data, ['results']))
+      setPaginations(omit(response.data, ['results']))
       showProgressBar(false)
     } else {
       showProgressBar(false)
@@ -160,10 +162,13 @@ export default function EnquiriesForm(props) {
     const data = { ...values };  
     if (!newUser) {
       const oldData = listData.find(p => p.id === id);
-      if (_.isEqual(oldData, data)) {
+      if (isEqual(oldData, data)) {
         toastWarning(toastMessages.UPDATES.NO_CHANGES_MADE);
         showProgressBar(false);
         return;
+      }
+      if (isEqual(oldData.dp_path, data.dp_path)) {
+        delete(data.dp_path);
       }
     }  
     const { response, error } = await action(data);
@@ -182,11 +187,17 @@ export default function EnquiriesForm(props) {
   };
 
   return <div className="overflow-hidden pl-3 pr-3">
-    <div className='mt-3 mb-3'>
+    <div className='row mt-3 mb-3'>
+      <div className='col text-center'>
+        <img src={clientConfig.logo}  alt={clientConfig.name} className="logo"/><h4 className='p-3'>
+          {upperCase('Enquiry Form')}
+          </h4>  </div>
+      
+      
       
     </div>
     <div className='row m-0 p-0'>
-      <div className={`shadow-sm bg-white rounded-lg p-0 mb-3 ${screen.class} scrollAbleContent `}>
+      <div className={`bg-white rounded-lg p-0 mb-3 ${screen.class} `}>
       <Edit
           showProgressBar={showProgressBar}
           setView={amendScreenView}
@@ -195,7 +206,7 @@ export default function EnquiriesForm(props) {
           title={title}
           id={'new'}
           onView={onView}
-          onSubmit={onSubmit} />
+          onFormSubmit={onSubmit} />
       </div>
       {screen.mode === 'view' ? <div className='col  shadow-sm bg-white rounded-lg  p-0 mb-3 scrollAbleContent'>
         <View
@@ -204,7 +215,7 @@ export default function EnquiriesForm(props) {
           props={props}
           title={title}
           id={inActionData.id}
-          data={_.find(listData, function(o) { return o.id === inActionData.id; })}
+          data={find(listData, function(o) { return o.id === inActionData.id; })}
           onEdit={onEdit}
           confirmDelete={confirmDelete} />
       </div> : undefined}

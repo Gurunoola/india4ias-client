@@ -1,9 +1,9 @@
-import * as _ from 'lodash'
+import {isEmpty}from 'lodash'
 export const search = (list, searchValue, filters, options)=>{
     let newList = [...list];
     if (filters !== 'none' && searchValue) {
       const searchParams = filters.map(item => item.value);
-      if (_.isEmpty(searchParams))
+      if (isEmpty(searchParams))
         searchParams.push(options.defaultFilter)
       newList = list.filter((item) => {
         return searchParams.some((newItem) => {

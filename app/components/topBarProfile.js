@@ -20,7 +20,8 @@ function TopBarProfile(props) {
     <>    <Dropdown className='nav-link'>
       <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
         <a className="nav-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span className="mr-2 d-none d-lg-inline text-gray-600 small text-capitalize"> Hello, {props.user.firstName} {props.user.lastName}</span>
+          <span className="mr-2 d-none d-lg-inline text-gray-600 small text-capitalize"> Hello, {props.user.name} 
+        </span>
           <img className="img-profile rounded-circle" src={require("img/profile_male.svg")} />
         </a>
       </Dropdown.Toggle>

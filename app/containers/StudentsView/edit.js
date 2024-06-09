@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import AsyncDropdown from '../AsyncDropdown/Loadable';
 import FormBuilder from '../../components/formBuilder';
+import { get } from 'lodash'
 import {
   useForm,
   ErrorMessage,
-  _,
   ToolBar,
   labels,
   validationRules,
@@ -148,7 +148,7 @@ export function Edit({ showProgressBar, data, title, id, onView, onSubmit }) {
             <div className='col-md-4 mb-4'>
               <label>{labels.CLASS}</label>
               <select className='form-control' {...register("class.id", { ...validationRules.required })}>
-                <AsyncDropdown dataType={'classes'} value={_.get(formData, 'class.id')} />
+                <AsyncDropdown dataType={'classes'} value={get(formData, 'class.id')} />
               </select>
               <ErrorMessage errors={errors} name="class.id" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
             </div>
@@ -196,7 +196,7 @@ export function Edit({ showProgressBar, data, title, id, onView, onSubmit }) {
           </div>
         </div>} defaultCollapsed={true} />
         <Collapsiable title={'Parents Details'} body={<><p className='bg-custom-gray p-3 m-0'>
-          <strong>{_.chain(formData).get('parents[0].relationship').capitalize().value()}</strong>
+          {/* <strong>{chain(formData).get('parents[0].relationship').capitalize().value()}</strong> */}
         </p>
           <div className='bg-white p-3'>
             <div className='row'>
@@ -254,21 +254,21 @@ export function Edit({ showProgressBar, data, title, id, onView, onSubmit }) {
               <div className='col-md-4 mb-4'>
                 <label>{labels.GENDER}</label>
                 <select className='form-control' {...register("parents[0].gender", basicValidationRules)}>
-                  <AsyncDropdown dataType={'gender'} value={_.get(formData, 'parents[0].gender')} />
+                  <AsyncDropdown dataType={'gender'} value={get(formData, 'parents[0].gender')} />
                 </select>
                 <ErrorMessage errors={errors} name="parents[0].gender" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
               </div>
               <div className='col-md-4 mb-4'>
                 <label>{labels.RELATIONSHIP}</label>
                 <select className='form-control' {...register("parents[0].relationship", basicValidationRules)}>
-                  <AsyncDropdown dataType={'relationship'} value={_.get(formData, 'parents[0].relationship')} />
+                  <AsyncDropdown dataType={'relationship'} value={get(formData, 'parents[0].relationship')} />
                 </select>
                 <ErrorMessage errors={errors} name="parents[0].relationship" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
               </div>
             </div>
           </div>
           <p className='bg-custom-gray p-3 m-0'>
-            <strong>{_.chain(formData).get('parents[1].relationship').capitalize().value()}</strong>
+            {/* <strong>{chain(formData).get('parents[1].relationship').capitalize().value()}</strong> */}
           </p>
           <div className='bg-white p-3'>
             <div className='row'>
@@ -326,14 +326,14 @@ export function Edit({ showProgressBar, data, title, id, onView, onSubmit }) {
               <div className='col-md-4 mb-4'>
                 <label>{labels.GENDER}</label>
                 <select className='form-control' {...register("parents[1].gender", basicValidationRules)}>
-                  <AsyncDropdown dataType={'gender'} value={_.get(formData, 'parents[1].gender')} />
+                  <AsyncDropdown dataType={'gender'} value={get(formData, 'parents[1].gender')} />
                 </select>
                 <ErrorMessage errors={errors} name="parents[1].gender" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
               </div>
               <div className='col-md-4 mb-4'>
                 <label>{labels.RELATIONSHIP}</label>
                 <select className='form-control' {...register("parents[1].relationship", basicValidationRules)}>
-                  <AsyncDropdown dataType={'relationship'} value={_.get(formData, 'parents[1].relationship')} />
+                  <AsyncDropdown dataType={'relationship'} value={get(formData, 'parents[1].relationship')} />
                 </select>
                 <ErrorMessage errors={errors} name="parents[1].relationship" render={({ message }) => <p className='text-danger fs-6 fst-italic'>{message}</p>} />
               </div>

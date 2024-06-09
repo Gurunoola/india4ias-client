@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import * as _ from 'lodash';
+import {capitalize, isEqual} from 'lodash';
 import Edit from './edit';
 import View from './view';
 import ToolBar from './toolBar';
@@ -110,7 +110,7 @@ export default function Dashboard(props) { //change for new component
   const defaultColSize = 200;
   const actionButtons = [
     {
-      title: `${labels.BUTTON_NEW} ${_.capitalize(componentNameSingular)}`,
+      title: `${labels.BUTTON_NEW} ${capitalize(componentNameSingular)}`,
       iconOptions: { icon: 'plus', type: 'white'},
       type: 'primary',
       // path: `/${componentName}/edit/new`,
@@ -213,7 +213,7 @@ export default function Dashboard(props) { //change for new component
     } else {
       const oldData = listData.filter(p => p.id === inActionData.id);
       const newData = { ...oldData[0], ...values }
-      if (_.isEqual(oldData[0], newData)) {
+      if (isEqual(oldData[0], newData)) {
         toastWarning(toastMessages.UPDATES.NO_CHANGES_MADE);
         showProgressBar(false);
         return;

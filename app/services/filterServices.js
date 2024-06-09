@@ -1,12 +1,12 @@
 import { Comparator } from 'react-bootstrap-table2-filter';
-
+import { isEmpty } from 'lodash';
 export const filter = ({data, filters, list})=> { 
     let noDataRow = [];
     let result = [...list]
     Object.keys(result[0]).forEach((item) => {
       noDataRow[item] = 'No Result'
     })
-    if (!_.isEmpty(filters)) {
+    if (!isEmpty(filters)) {
       result = data.filter((row) => {
         let valid = true;
         for (const dataField in filters) {
@@ -23,7 +23,7 @@ export const filter = ({data, filters, list})=> {
         return valid;
       });
     }
-    if (_.isEmpty(result))
+    if (isEmpty(result))
       return [{ ...noDataRow }];
     else
       return [...result];

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import _ from "lodash";
+import {map, random, range} from "lodash";
 import { Card } from "react-bootstrap";
 import { Responsive, WidthProvider } from "react-grid-layout";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -26,7 +26,7 @@ export default class ShowcaseLayout extends React.Component {
   }
 
   generateDOM() {
-    return _.map([1,1,1,1,1], function (l, i) {
+    return map([1,1,1,1,1], function (l, i) {
       return (
         <div key={i}>
           <div className="card" style={{height: '100%'}}>
@@ -102,10 +102,10 @@ ShowcaseLayout.defaultProps = {
 };
 
 function generateLayout() {
-  return _.map(_.range(0, 25), function (item, i) {
+  return map(range(0, 25), function (item, i) {
     var y = Math.ceil(Math.random() * 4) + 1;
     return {
-      x: (_.random(0, 5) * 2) % 12,
+      x: (random(0, 5) * 2) % 12,
       y: Math.floor(i / 6) * y,
       w: 2,
       h: y,

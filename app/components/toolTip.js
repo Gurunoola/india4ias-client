@@ -1,8 +1,8 @@
 import React, { Component, useEffect, useState } from 'react'
 import { Tooltip as TTip } from 'react-tooltip';
-import _
+import {random}
  from 'lodash';
-function ToolTip({title, content, placement, id=_.random(5)}) {
+function ToolTip({title, content, placement, id=random(5)}) {
   return (
     <>
     <a

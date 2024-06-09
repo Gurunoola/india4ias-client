@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash';
+import {startCase, capitalize} from 'lodash';
 
 const HtmlTableBuilder = ({ json, cols, mode }) => {
     if(mode === 'view'){
@@ -13,7 +13,7 @@ const HtmlTableBuilder = ({ json, cols, mode }) => {
         // Check for firstName, lastName, and middleName and add them to the first row
         ['firstName', 'lastName', 'middleName'].forEach(key => {
             if(keys.includes(key)) {
-                cells.push(<td className='border-bottom pl-5'><label className='text-gray-500'>{_.startCase(key)}:</label> { _.capitalize(json[key]) || ''}</td>);
+                cells.push(<td className='border-bottom pl-5'><label className='text-gray-500'>{startCase(key)}:</label> { capitalize(json[key]) || ''}</td>);
                 i++;
                 keys = keys.filter(k => k !== key);
             }
@@ -24,7 +24,7 @@ const HtmlTableBuilder = ({ json, cols, mode }) => {
                 // Skip if the value is an object
                 return;
             }
-            cells.push(<td className='border-bottom pl-5'><label className='text-gray-500'>{_.startCase(key)}:</label> { _.capitalize(json[key]) || ''}</td>);
+            cells.push(<td className='border-bottom pl-5'><label className='text-gray-500'>{startCase(key)}:</label> { capitalize(json[key]) || ''}</td>);
             i++;
             if(i === cols) {
                 rows.push(<tr>{cells}</tr>);

@@ -1,7 +1,7 @@
 import { put, call, takeLatest, all } from 'redux-saga/effects';
 import { events as EVENT } from '../ConstantManager';
 import { doServerRequest, constructEvents } from '../../services/axiosServices';
-import _ from 'lodash';
+import {get, omit} from 'lodash';
 
 const url = `/auth/logout`;
 
@@ -19,8 +19,8 @@ const doLogout = options => {
 function* logout(params) {
   const { response, error } = yield call(doLogout, params);
   const { event, message } = constructEvents(response, error, 'post', 'LOGOUT');
-  const data = _.get(response, 'data.results', []);
-  const rest = _.omit(_.get(response, 'data', []), 'results');
+  const data = get(response, 'data.results', []);
+  const rest = omit(get(response, 'data', []), 'results');
   yield put({ type: LOGOUT_GET_SUCCESS, result: {data: [...data], ...rest} || undefined, message });
 };
 

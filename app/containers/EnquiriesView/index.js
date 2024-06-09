@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './styles.css';
+import { omit, isEqual, find } from 'lodash';
 import { 
-  _ , 
   getList, post, 
   update, 
   remove, 
@@ -18,7 +18,10 @@ import {
   alterView,
   isToday,
   dateFormat,
-  globalConfigs
+  globalConfigs,
+  getUploadImageUrl,
+  getInitials,
+  ProfileImage
 } from './imports';
 
 export default function Enquiries(props) {
@@ -37,10 +40,23 @@ export default function Enquiries(props) {
   ];
   const columns = [
     { accessorKey: 'id', header: labels.USER_ID, size: DEFAULT_COL_SIZE },
-    { accessorFn: (row) => `${row.name}`, header: 'Name', size: 200 },
-    { accessorKey: 'phoneNumber', header: labels.CONTACT, size: 100 },
     {
-      accessorKey: 'rescheduledDate',
+      accessorKey: 'dp_path',
+      header: 'Image',
+      size: 50,
+      Cell: ({ cell, row }) => {
+        const val = cell.getValue();
+        const name = row.original.name;
+        if(val && val!= null)
+          return <ProfileImage size={40} image={getUploadImageUrl(cell.getValue())} />
+        else 
+          return <ProfileImage size={40} text={name} />
+      },
+    },
+    { accessorFn: (row) => `${row.name}`, header: 'Name', size: 200 },
+    { accessorKey: 'phone_number', header: labels.CONTACT, size: 100 },
+    {
+      accessorKey: 'rescheduled_date',
       size: 100,
       header: `${labels.RESCHEDULED_DATE}`,
       filterVariant: 'date', // Set the filter type to date
@@ -105,11 +121,11 @@ export default function Enquiries(props) {
   const fetchList = async (page=TABLE_PAGE, per_page=TABLE_LIMIT) => {
     showProgressBar(true)
     const {response, error} = await getList({ page, limit: per_page })
-    if (response && response.data.results) {
+    if (response && response.data.data) {
       // setListData(response.data.results)
-      setListData(prevList => ([...prevList, ...response.data.results]))
+      setListData(response.data.data)
       console.log(listData)
-      setPaginations(_.omit(response.data, ['results']))
+      setPaginations(omit(response.data, ['results']))
       showProgressBar(false)
     } else {
       showProgressBar(false)
@@ -160,7 +176,7 @@ export default function Enquiries(props) {
      
     } else {
       showProgressBar(false)
-      toastError(toastMessages.DELETED.ERROR+': '+ error.message)
+      toastError(toastMessages.DELETED.ERROR)
     }
   }
 
@@ -175,10 +191,13 @@ export default function Enquiries(props) {
     const data = { ...values };  
     if (!newUser) {
       const oldData = listData.find(p => p.id === id);
-      if (_.isEqual(oldData, data)) {
+      if (isEqual(oldData, data)) {
         toastWarning(toastMessages.UPDATES.NO_CHANGES_MADE);
         showProgressBar(false);
         return;
+      }
+      if (isEqual(oldData.dp_path, data.dp_path)) {
+        delete(data.dp_path);
       }
     }  
     const { response, error } = await action(data);
@@ -222,7 +241,7 @@ export default function Enquiries(props) {
           props={props}
           title={title}
           id={inActionData.id}
-          data={_.find(listData, function(o) { return o.id === inActionData.id; })}
+          data={find(listData, function(o) { return o.id === inActionData.id; })}
           onEdit={onEdit}
           confirmDelete={confirmDelete} />
       </div> : undefined}

@@ -5,7 +5,7 @@ import GlobalStyle from '../../globalStyles';
 import { useHistory } from 'react-router-dom';
 import { getAccessToken, getUser, getUserRole } from '../../services/userServices';
 import { events as EVENT, toastMessages, labels } from '../ConstantManager';
-import _ from 'lodash';
+import {capitalize} from 'lodash';
 import { PoweredBy } from '../../components';
 import { globalConfigs } from '../../globalConfigs';
 
@@ -62,7 +62,7 @@ export default function Login(props) {
     if (user) {
       if (type === LOGIN_GET_SUCCESS && token) {
         setLoading(false);
-        toastSuccess(`${toastMessages.LOGIN.SUCCESS} ${_.capitalize(user.data.firstName)} ${_.capitalize(user.data.lastName)}`)
+        toastSuccess(`${toastMessages.LOGIN.SUCCESS} ${capitalize(user.data.name)}`)
         history.push(props.rootPage);
       } else if (type === LOGIN_GET_FAILED) {
         setLoading(false);
@@ -88,7 +88,7 @@ export default function Login(props) {
       style={{ backgroundColor: '#f8f9fc' }}
     >
       <div className="container">
-        <div className="card login-reg-card shadow-sm">
+        <div className="card login-reg-card shadow-0">
           <div className="row no-gutters">
             <div className="col-md-6">
               <img
@@ -162,6 +162,7 @@ export default function Login(props) {
                         `${labels.BUTTON_LOGIN}`
                       )}
                     </button>
+                    {/* <a href='/enquiryForm' className='btn btn-block btn-info mb-4 enqyiryButton'>Enquiry Form</a> */}
                   </form>
                   <p className="forgot-password-link">
                     { appConfig.showRegistartionLink ? <> New user? <Link to='/register'>{labels.BUTTON_REGISTRATION}</Link> &nbsp; | &nbsp;</> : undefined }

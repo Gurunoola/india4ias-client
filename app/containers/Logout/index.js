@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import * as _ from 'lodash';
 import { getAccessTokenWithExpires } from '../../services/userServices';
 
 import {

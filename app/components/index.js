@@ -16,6 +16,7 @@ import HtmlTableBuilder from './htmlTableBuilder';
 import BetaFlag from './betaFlag';
 import Collapsiable from './collapsiable';
 import ToolTip from './tooltip';
+import ProfileImage from './profileImage';
 import Chart
  from './chart';
 export {
@@ -36,5 +37,6 @@ export {
   Chart,
   Card,
   BetaFlag,
-  HtmlTableBuilder
+  HtmlTableBuilder,
+  ProfileImage
 };
