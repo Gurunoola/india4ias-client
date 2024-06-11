@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import * as _ from 'lodash';
 import Modal from 'react-bootstrap/Modal';
 import { Table } from '../../components';
 import { Card } from '@mui/material';

@@ -43,7 +43,7 @@ function ProfileImage({ text, image, size = 100, color = 'bg-primary', shape = '
             )}
             <text
               x="50%"
-              y="50%"
+              y="40%"
               alignmentBaseline="middle"
               textAnchor="middle"
               fontFamily="sans-serif"

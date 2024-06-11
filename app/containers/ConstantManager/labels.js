@@ -102,6 +102,7 @@ export const labels = {
   PAGE_NOT_FOUND: "404 Page not found",
   PAN_CARD: "Pan Card No",
   PASSWORD: "Password",
+  PASSWORD_CONFIRM: "Password Confirm",
   PHOTO: "Upload Photo",
   PHOTO_SIZE: "(Max upload fize size 2 MB)",
   PIN_CODE: "Pin Code",

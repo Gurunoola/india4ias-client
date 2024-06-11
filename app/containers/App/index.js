@@ -5,6 +5,7 @@ import Login from '../LoginPage/Loadable';
 import Logout from '../Logout/Loadable';
 import Dashboard from '../DashboardPage/Loadable';
 import Enquiries from '../EnquiriesView/Loadable'
+import Users from '../UsersView/Loadable'
 import EnquiriesForm from '../EnquiriesFormView/Loadable'
 import '../../css/baseStyles.css'; // base styleSheet with themes
 import '../../css/rs-styles.css';
@@ -111,6 +112,9 @@ export default function App(props) {
 
                   {/* Enquiries routes */}
                   <Route exact path="/enquiries" heading="Enquiries" render={ checkRole('enquiries') ? (props) => <Enquiries {...props} setShowProgressBar={setShowProgressBar} setShowSideBar={setShowSideBar} /> : (props) => <PageNotFound {...props} unauthorized={true} /> }/>
+
+                  {/* Users routes */}
+                  <Route exact path="/users" heading="Users" render={ checkRole('userManagment') ? (props) => <Users {...props} setShowProgressBar={setShowProgressBar} setShowSideBar={setShowSideBar} /> : (props) => <PageNotFound {...props} unauthorized={true} /> }/>
 
                   {/* EnquirieFromView routes */}
                   {/* <Route exact path="/enquiriesForm" heading="Enquiries Form" render={ checkRole('guest') ? (props) => <EnquiriesForm {...props} setShowProgressBar={setShowProgressBar} setShowSideBar={setShowSideBar} /> : (props) => <PageNotFound {...props} unauthorized={true} /> }/> */}
