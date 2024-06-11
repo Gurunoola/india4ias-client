@@ -6638,6 +6638,9 @@
   .border-white {
     border-color: var(--white) !important;
   }
+  .border-gray {
+    border-color: var(--gray) !important;
+  }
   
   .rounded-sm {
     border-radius: 0.2rem !important;

@@ -22,14 +22,11 @@ import {
   dateFormat,
   globalConfigs,
   getUploadImageUrl,
-  ProfileImage,
-  getUserRole,
-  getUserId
+  ProfileImage
 } from './imports';
 
-export default function Enquiries(props) {
+export default function Users(props) {
   const title = componentNameCapitalize;
-  const role = getUserRole();
   const { PAGE, PER_PAGE, DEFAULT_COL_SIZE } = config;
   const actionButtons = [
     {
@@ -43,53 +40,6 @@ export default function Enquiries(props) {
     }
   ];
 
-  const handleClearDate = () => {
-    const newFilters = filters.filter(filter => filter.id !== column.id);
-    handleFilterChange(newFilters);
-  };
-
-  const renderDateFilter = ({ column }) => {
-    const currentFilter = filters.find(filter => filter.id === column.id);
-    const handleDateChange = (date) => {
-      const newFilters = filters.filter(filter => filter.id !== column.id);
-      if (date) {
-        newFilters.push({ id: column.id, value: moment(date).format('YYYY-MM-DD') });
-      }
-      handleFilterChange(newFilters);
-    };
-    const handleTodayDate = () => {
-      const today = new Date();
-      const newFilters = filters.filter(filter => filter.id !== column.id);
-      newFilters.push({ id: column.id, value: today.toISOString().split('T')[0] });
-      handleFilterChange(newFilters);
-    };
-    return <>
-      <div class="row">
-        <div class="col p-0 m-0 border-bottom border-gray">
-          <DatePicker
-            selected={currentFilter ? new Date(currentFilter.value) : null}
-            onChange={handleDateChange}
-            customInput={<button className='btn btn-info btn-sm border-0 filterButton' type="button">Select</button>}
-            dateFormat="yyyy-MM-dd"
-            closeOnScroll={true}
-            isClearable={true}
-            className="filterButton filterButtonSelectDate"
-          />
-        </div>
-        <div class="col p-0 m-0 border-bottom border-gray">
-          <button type='button' className='btn btn-gray btn-sm btn-line border-0 filterButton' onClick={handleTodayDate}>Today</button>
-          <button type='button' className='btn btn-light btn-sm btn-line border-0 filterButton' onClick={handleClearDate}>Clear</button>
-        </div>
-      </div>
-      <div className='row'>
-        <div className='col p-0 m-1'>
-        </div>
-        <div className='col p-0  m-1'>
-        </div>
-      </div>
-    </>;
-  };
-
   const columns = [
     { accessorKey: 'id', header: labels.USER_ID, size: DEFAULT_COL_SIZE },
     {
@@ -99,54 +49,15 @@ export default function Enquiries(props) {
       Cell: ({ cell, row }) => {
         const val = cell.getValue();
         const name = row.original.name;
-        if (val && val != null)
+        if(val && val!= null)
           return <ProfileImage size={40} image={getUploadImageUrl(cell.getValue())} />
-        else
+        else 
           return <ProfileImage size={40} text={name} />
       },
     },
     { accessorFn: (row) => `${row.name}`, header: 'Name', size: 200 },
-    { accessorKey: 'phone_number', header: labels.CONTACT, size: 100 },
-    {
-      accessorKey: 'rescheduled_date',
-      size: 175,
-      header: `${labels.RESCHEDULED_DATE}`,
-      Filter: (renderDateFilter),
-      filterVariant: 'date', // Set the filter type to date
-      Cell: ({ cell }) => {
-        const date = new Date(cell.getValue());
-        return isToday(date) ? (
-          <>
-            <div className='badge bg-success text-white ml-1'>
-              {dateFormat(date)}
-            </div>
-          </>
-        ) :
-          dateFormat(date);
-      },
-    },
     { accessorKey: 'email', header: labels.EMAIL, size: 200 },
-    { accessorKey: 'counsellor_name', header: 'Counsellor Name', size: 200 },
-    { accessorKey: 'course', header: labels.COURSE, size: 100, filterVariant: 'multi-select', filterSelectOptions: [...globalConfigs.dropDownOptions.course] },
-    { accessorKey: 'status', header: labels.STATUS, size: 100, filterVariant: 'multi-select', filterSelectOptions: [...globalConfigs.dropDownOptions.status] },
-    {
-      accessorKey: 'dob',
-      header: `${labels.DOB}`,
-      size: 175,
-      Filter: (renderDateFilter),
-      Cell: ({ cell }) => {
-        const date = new Date(cell.getValue());
-        return isToday(date) ? (
-          <>
-            <div className='badge bg-success text-white ml-1'>
-              {dateFormat(date)}
-            </div>
-          </>
-        ) :
-          dateFormat(date);
-      },
-    },
-    { accessorKey: 'gender', header: labels.GENDER, size: 100 }
+    { accessorKey: 'role', header: labels.ROLE, size: 100 }
   ]
   
   // all states
@@ -231,14 +142,16 @@ export default function Enquiries(props) {
 
   const onView = (event, id) => {
     console.log(data)
+    console.log(id)
     if (event)
       event.stopPropagation();
-    if (id === 'new') {
+    if(id === 'new') {      
       amendScreenView('list')
       return
     }
-    amendScreenView('view')
-    setInActionData({ id: id });
+    //amendScreenView('edit')
+    //setInActionData({ id: id });
+    onEdit(event, id, find(data, function(o) { return o.id === id; }) )
   };
 
   const confirmDelete = (event, id) => {
@@ -263,13 +176,12 @@ export default function Enquiries(props) {
 
   const onSubmit = async (values, newUser = false, isSaveAndNew) => {
     showProgressBar(true);
-    let d = {};
-    const userId = getUserId();
     const action = newUser ? post : update;
     const id = newUser ? 'new' : inActionData.id;
-    let _data = { ...values };
+    const _data = { ...values };
     if (!newUser) {
       const oldData = data.find(p => p.id === id);
+      delete(_data.email)
       if (isEqual(oldData, _data)) {
         toastWarning(toastMessages.UPDATES.NO_CHANGES_MADE);
         showProgressBar(false);
@@ -279,24 +191,7 @@ export default function Enquiries(props) {
         delete _data.dp_path;
       }
     }
-
-      const cleanData = (obj) => {
-        Object.keys(obj).forEach(key => {
-          if (!['id','status', 'rescheduled_date', 'remarks'].includes(key)) {
-            delete obj[key];
-          }
-        });
-        return obj;
-      };
-      
-  
-      // Clean the data and update the state
-           
-      if(role === "user"){
-        d = cleanData({ ..._data });
-        d.counsellor_id = userId;
-      }
-    const { response, error } = await action( role === "user" ? d : _data);
+    const { response, error } = await action(_data);
     if (response && response.data) {
       setPage(1);  // Reset page to 1 to refresh data
       await fetchData(1, perPage, filters);  // Fetch data to ensure the latest data is loaded
@@ -356,8 +251,8 @@ export default function Enquiries(props) {
           id={inActionData.id}
           onView={onView}
           onSubmit={onSubmit}
-          role={role}
-          />
+          confirmDelete={confirmDelete}
+        />
       </div> : undefined}
     </div>
     <ConfirmModal loadButton={false} theme={'danger'} show={modalShow} onClose={() => { setModalShow(!modalShow); showProgressBar(false) }} onSubmit={() => { setModalShow(false); onDelete(inActionData.id) }} />

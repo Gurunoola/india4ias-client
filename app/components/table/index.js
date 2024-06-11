@@ -7,26 +7,25 @@ import {
   MRT_ToggleFiltersButton,
   MRT_ToggleGlobalFilterButton 
 } from 'material-react-table';
-import { MRT_Localization_EN } from 'material-react-table/locales/en';
 import { Edit, Delete } from '@mui/icons-material';
-import {  Box,  IconButton,  Tooltip,} from '@mui/material';
-import {Icon } from '../'
-
+import { Box,  IconButton,  Tooltip} from '@mui/material';
+import { Icon } from '../'
+import './styles.css';
 
 const icons = {
   ClearAllIcon: () => <Icon size='18px' icon='x' type="secondary" />,
   DensityLargeIcon: () => <Icon size='18px' icon='view-list' type="warning" />,
   DensityMediumIcon: () => <Icon size='18px' icon='view-list' type="secondary" />,
   DensitySmallIcon: () => <Icon size='18px' icon='view-list' type="primary" />,
-  FilterListIcon: () => <Icon size='18px' icon='funnel' type="secondary" />,
-  FilterListOffIcon: () => <Icon size='18px' icon='funnel' type="primary" />,
+  FilterListIcon: () => <Icon size='18px' icon='filter' type="secondary" />,
+  FilterListOffIcon: () => <Icon size='18px' icon='filter' type="primary" />,
   FullscreenExitIcon: () => <Icon size='18px'  icon='fullscreen-exit' type="primary" />,
   FullscreenIcon: () => <Icon size='18px' icon='fullscreen' type="secondary" />,
   SearchIcon: () => <Icon size='18px' icon='search'  type="secondary" />,
   SearchOffIcon: () => <Icon size='18px' icon='search' type="primary" />,
-  SortIcon: (props) => (
-    <Icon size='18px' icon='arrow-down' type="primary" {...props} />
-  )
+  // SortIcon: (props) => (
+  //   <Icon size='18px' icon='arrow-down' type="primary" {...props} />
+  // )
 };
 
 const Table = ({ 
@@ -37,7 +36,8 @@ const Table = ({
   onEdit,
   onView,
   onDelete,
-  onPageChange,
+  handleFilterChange,
+  handleScroll,
   enableRowActions = false,
   rowActions = ['edit'],
   enableDensityToggle = true,
@@ -52,22 +52,16 @@ const Table = ({
   positionActionsColumn = 'last',
   layoutMode = 'grid-no-grow',
   showColumnFilters = true,
-  columnVisibility = {'id': false}
+  columnVisibility = {'id': false},
+  page,
+  pageSize,
+  totalCount
 }) => {
   
   const memoColumns = useMemo(() => columns,[]);
-  const [pagination, setPagination] = useState({
-    pageIndex: 0,
-    pageSize: 5, //customize the default page size
-  });
 
-  useEffect(() => {
-    onPageChange(pagination.pageIndex + 1, pagination.pageSize)
-    //do something when the pagination state changes
-  }, [pagination.pageIndex, pagination.pageSize]);
-
-
-  return <MaterialReactTable
+  return <div onScroll={handleScroll} style={{ height: '70vh', minHeight: '70vh', overflow: 'auto' }}>
+    <MaterialReactTable
     columns={memoColumns}
     data={tabledata}
     enableRowActions={enableRowActions}
@@ -81,11 +75,18 @@ const Table = ({
     enableRowSelection={enableRowSelection}
     enableColumnResizing={enableColumnResizing}
     positionActionsColumn={positionActionsColumn}
-    onPaginationChange={setPagination}
+    enableBottomToolbar={false}
+    manualPagination
+    manualFiltering
+    manualSorting
+    enableSorting={false}
+    onColumnFiltersChange={handleFilterChange}
+    page={page}
+    pageSize={pageSize}
+    rowCount={totalCount}
     layoutMode={layoutMode}    
     getRowId={(row) => row.id}
     icons={icons}
-    localization={MRT_Localization_EN}
     muiTableBodyRowProps={({ row }) => ({
       onClick: (event) => {
         event.preventDefault();
@@ -152,7 +153,7 @@ const Table = ({
         </div>
       );
     }}
-  />;
+  /> </div>;
 };
 
 export default Table;

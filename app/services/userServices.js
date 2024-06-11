@@ -17,11 +17,11 @@ export function getUser() {
     return { data: {...user} };
 }
 
-export function getUserRole(props) {
+export function getUserRole() {
     const {user} = getUserDataFromLocal();
     // const roldId = get(userData, 'roleId', {})
     // const { role } = keys(userObj).length > 0 ? userObj : { user: { role: undefined } }
-    return get(user, 'role', {});
+    return get(user, 'role', undefined);
 }
 
 export function getAccessToken() {
@@ -35,8 +35,8 @@ export function getAccessTokenWithExpires() {
 }
 
 export function getUserId() {
-    const userData = getUserDataFromLocal();
-    return { data: pick(userData, ['id']) };
+    const {user} = getUserDataFromLocal();
+    return get(user, 'id', undefined);
 }
 
 

@@ -7,10 +7,10 @@ export const capitalizeString = (text) => {
     return title;
 }
 
-export const getInitials = (name) =>{
-     const nameParts = name.trim().split(' ');
-     const initials = nameParts.map(part => part.charAt(0).toUpperCase()).join('');
-     return initials;
+export const getInitials = (name) => {
+    const nameParts = name.trim().split(' ');
+    const initials = nameParts.slice(0, 2).map(part => part.charAt(0).toUpperCase()).join('');
+    return initials;
 }
 
 export const dateFormat = (d, to='DD-MM-YYYY') => {

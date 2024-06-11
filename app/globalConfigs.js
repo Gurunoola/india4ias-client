@@ -1,9 +1,9 @@
 import { labels } from "./containers/ConstantManager";
 
 const backendConfig = {
-  protocol: 'https',
-  domain: 'india4ias.vocable.pro',
-  port: undefined,
+  protocol: 'http',
+  domain: 'localhost',
+  port: 8000,
   commonHeaders: {
     'Content-Type': 'application/json',
     'accept': 'application/json',
@@ -101,12 +101,12 @@ const appConfig = {
   showTopBarMessagesIcon: false,
   showTermsAndPrivacyPolicy: false,
   showRegistartionLink: false,
-  uploadImageBaseUrl: 'https://india4ias.vocable.pro'
+  uploadImageBaseUrl: `${backendConfig.protocol}://${backendConfig.domain}:${backendConfig.port}`
 }
 
 const dropDownOptions = {
   gender:['male', 'female', 'other'], 
-  roles:['user', 'admin', 'superAdmin', 'guest'],
+  roles:['user', 'admin'],
   course:[ 'upsc','kpsc'],
   yesNo:[1, 0],
   status:['qualified', 'unqualified', 'converted', 'rescheduled'],
