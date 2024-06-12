@@ -64,28 +64,18 @@ export default function Enquiries(props) {
       handleFilterChange(newFilters);
     };
     return <>
-      <div class="row">
-        <div class="col p-0 m-0 border-bottom border-gray">
-          <DatePicker
-            selected={currentFilter ? new Date(currentFilter.value) : null}
-            onChange={handleDateChange}
-            customInput={<button className='btn btn-info btn-sm border-0 filterButton' type="button">Select</button>}
-            dateFormat="yyyy-MM-dd"
-            closeOnScroll={true}
-            isClearable={true}
-            className="filterButton filterButtonSelectDate"
-          />
-        </div>
-        <div class="col p-0 m-0 border-bottom border-gray">
-          <button type='button' className='btn btn-gray btn-sm btn-line border-0 filterButton' onClick={handleTodayDate}>Today</button>
-          <button type='button' className='btn btn-light btn-sm btn-line border-0 filterButton' onClick={handleClearDate}>Clear</button>
-        </div>
-      </div>
-      <div className='row'>
-        <div className='col p-0 m-1'>
-        </div>
-        <div className='col p-0  m-1'>
-        </div>
+      <div class="btn-group" role="group" aria-label="Date Filter Buttons">
+        <DatePicker
+          selected={currentFilter ? new Date(currentFilter.value) : null}
+          onChange={handleDateChange}
+          customInput={<button className='btn btn-outline-info bg-info btn-sm text-white filterButton' type="button">Select</button>}
+          dateFormat="yyyy-MM-dd"
+          closeOnScroll={true}
+          isClearable={true}
+          className=""
+        />
+        <button type="button" class="btn btn-outline-info btn-sm text-dark filterButton" onClick={handleTodayDate}>Today</button>
+        <button type="button" class="btn btn-outline-info btn-sm text-dark filterButton" onClick={handleClearDate}>Clear</button>
       </div>
     </>;
   };
@@ -148,7 +138,7 @@ export default function Enquiries(props) {
     },
     { accessorKey: 'gender', header: labels.GENDER, size: 100 }
   ]
-  
+
   // all states
   const [data, setData] = useState([]);
   const [modalShow, setModalShow] = useState(false);
@@ -176,7 +166,7 @@ export default function Enquiries(props) {
 
   result ? (data = result.data) : [];
 
-  const fetchData = async (page, perPage, filters, sorting=[]) => {
+  const fetchData = async (page, perPage, filters, sorting = []) => {
     setIsLoading(true);
     try {
       const filterParams = filters.map(filter => `${toLower(filter.id)}=${filter.value}`).join('&');
@@ -188,7 +178,7 @@ export default function Enquiries(props) {
         const uniqueData = Array.from(new Set(mergedData.map(item => item.id)))
           .map(id => mergedData.find(item => item.id === id));
         return uniqueData;
-      });  
+      });
       setTotalCount(response.data.meta.total);
     } catch (error) {
       console.error('Error fetching data', error);
@@ -250,7 +240,7 @@ export default function Enquiries(props) {
     const { response } = await remove(id);
     if (response && response.status === 204) {
       setPage(1);
-      await fetchData(1, perPage, filters); 
+      await fetchData(1, perPage, filters);
       toastSuccess(toastMessages.DELETED.SUCCESS)
       showProgressBar(false)
       amendScreenView('list')
@@ -280,23 +270,23 @@ export default function Enquiries(props) {
       }
     }
 
-      const cleanData = (obj) => {
-        Object.keys(obj).forEach(key => {
-          if (!['id','status', 'rescheduled_date', 'remarks'].includes(key)) {
-            delete obj[key];
-          }
-        });
-        return obj;
-      };
-      
-  
-      // Clean the data and update the state
-           
-      if(role === "user"){
-        d = cleanData({ ..._data });
-        d.counsellor_id = userId;
-      }
-    const { response, error } = await action( role === "user" ? d : _data);
+    const cleanData = (obj) => {
+      Object.keys(obj).forEach(key => {
+        if (!['id', 'status', 'rescheduled_date', 'remarks'].includes(key)) {
+          delete obj[key];
+        }
+      });
+      return obj;
+    };
+
+
+    // Clean the data and update the state
+
+    if (role === "user") {
+      d = cleanData({ ..._data });
+      d.counsellor_id = userId;
+    }
+    const { response, error } = await action(role === "user" ? d : _data);
     if (response && response.data) {
       setPage(1);  // Reset page to 1 to refresh data
       await fetchData(1, perPage, filters);  // Fetch data to ensure the latest data is loaded
@@ -357,7 +347,7 @@ export default function Enquiries(props) {
           onView={onView}
           onSubmit={onSubmit}
           role={role}
-          />
+        />
       </div> : undefined}
     </div>
     <ConfirmModal loadButton={false} theme={'danger'} show={modalShow} onClose={() => { setModalShow(!modalShow); showProgressBar(false) }} onSubmit={() => { setModalShow(false); onDelete(inActionData.id) }} />

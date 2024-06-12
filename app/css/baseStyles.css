@@ -11444,7 +11444,6 @@
   /* .pageContent { height: 82vh; overflow-y: auto; overflow-x: hidden;} */
   /* .height100px{ height: 50px;}
   .maxHeight300px{ max-height: 500px;} */
-  .collapsiable{}
   .collapsiable .card-header{ cursor: pointer;}
   .collapsiable .card-header:hover{ background: var(--bg-gray-200);}
   .viewDataTable{ table-layout: fixed;  width: 100%; height: auto; max-height: 500px;  overflow-x: auto;  }
@@ -11453,6 +11452,26 @@
   .viewDataTable td:hover { color: var(--primary) !important; }
   .viewDataTable label{ font-size: 14px; display: block; }
 .cursorPointer { cursor: pointer;}
-.profileImage{}
 .rbc-event-label{display: none !important;}
 .betaFlag{ position: fixed; z-index: 10001; background: var(--danger); color: var(--white); padding: 0 10px; transform: rotate(45deg); width: 150px; text-align: center; top: 10px; font-size: 12px; right: -57px;}
+.dpImage{    width: 100px;}
+.date-picker-wrapper {    position: relative;    z-index: 10050 !important; /* Ensure it's on top */ }
+.date-picker {    width: 100%;  }
+.react-datepicker-popper {    z-index: 10050 !important; /* Ensure it's on top */  }
+.react-datepicker__input-container {    width: 100%;  }
+.MuiTableBody-root {    position: static !important;  }
+.react-datepicker {
+    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
+    font-size: 0.8rem;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #aeaeae;
+    border-radius: 0.3rem;
+    display: inline-block;
+    position: absolute !important;
+    zoom: 0.7;
+}
+.filterButton{    padding: 2px 5px;    margin: 3px 1px;    display: block;    float: left;    font-size: 12px;    border-radius: 1px;}
+.filterButtonSelectDate{    padding: 0px 23px;    text-wrap: nowrap;}
+.react-datepicker-wrapper, .react-datepicker__input-container{    display:block;}
+.react-datepicker__input-container {display: block !important;}
