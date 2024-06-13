@@ -162,7 +162,7 @@ export default function Login(props) {
                         `${labels.BUTTON_LOGIN}`
                       )}
                     </button>
-                    {/* <a href='/enquiryForm' className='btn btn-block btn-info mb-4 enqyiryButton'>Enquiry Form</a> */}
+                    <a href='/enquiryForm' className='btn btn-block btn-info mb-4 enqyiryButton'>Enquiry Form</a>
                   </form>
                   <p className="forgot-password-link">
                     { appConfig.showRegistartionLink ? <> New user? <Link to='/register'>{labels.BUTTON_REGISTRATION}</Link> &nbsp; | &nbsp;</> : undefined }

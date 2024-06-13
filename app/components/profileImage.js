@@ -26,6 +26,7 @@ function ProfileImage({ text, image, size = 100, color = 'bg-primary', shape = '
           alignItems: 'center',
           backgroundColor: image ? 'transparent' : color,
           cursor: image && clickable ? 'pointer' : 'default',
+          margin: '0 auto'
         }}
       >
         {image ? (

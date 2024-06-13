@@ -125,7 +125,6 @@ export default function EnquiriesForm(props) {
   };
 
   const onView = (event, id) => {
-    console.log(listData)
     if (event)
       event.stopPropagation();
     if(id === 'new') {      

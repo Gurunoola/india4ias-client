@@ -75,10 +75,12 @@ export function View({ setView, props, title, id, data, onEdit, confirmDelete })
             <h3 className='pl-3 text-primary text-capitalize mt-2'>{formData && capitalize(formData.name)}</h3>
             <div className=''><Icon toolTip={{ title: labels.PRIMARY_MOBILE, placement: 'top' }} icon={'telephone'} size='16px' type={'primary'} /> {formData && formData.phone_number}</div>
           </div>
-          <div className='col-md-5'>
-            <h5><span className='badge'><span class=""><Icon toolTip={{ title: labels.STATUS, placement: 'left' }} icon={'check-circle'} size='18px' type={'primary'} /></span> {capitalize(formData && formData.status)}</span></h5>
-            <h5><span className='badge'><span class=""><Icon toolTip={{ title: labels.RESCHEDULED_DATE, placement: 'left' }} icon={'calendar-event'} size='18px' type={'primary'} /></span> {capitalize(formData && dateFormat(formData.rescheduled_date))}</span></h5>
-            <h5><span className='badge'><span class=""><Icon toolTip={{ title: labels.GENDER, placement: 'left' }} icon={'gender-ambiguous'} size='18px' type={'primary'} /></span> {capitalize(formData && formData.gender)}</span></h5>
+          <div className='col-md-5 col-12'>
+            <div className='row'>
+            <h5 className='col-md-12 col'><span className='badge'><span class=""><Icon toolTip={{ title: labels.STATUS, placement: 'left' }} icon={'check-circle'} size='18px' type={'primary'} /></span> {capitalize(formData && formData.status)}</span></h5>
+            <h5 className='col-md-12 col'><span className='badge'><span class=""><Icon toolTip={{ title: labels.RESCHEDULED_DATE, placement: 'left' }} icon={'calendar-event'} size='18px' type={'primary'} /></span> {capitalize(formData && dateFormat(formData.rescheduled_date))}</span></h5>
+            <h5 className='col-md-12 col'><span className='badge'><span class=""><Icon toolTip={{ title: labels.GENDER, placement: 'left' }} icon={'gender-ambiguous'} size='18px' type={'primary'} /></span> {capitalize(formData && formData.gender)}</span></h5>
+            </div>
           </div>
         </div>
       </div>

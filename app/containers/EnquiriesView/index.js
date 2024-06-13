@@ -208,7 +208,6 @@ export default function Enquiries(props) {
   }, [isLoading, data.length, totalCount]);
 
   const handleFilterChange = (newFilters) => {
-    console.log(newFilters)
     setFilters(newFilters);
     setPage(0); // Reset page to 0 to re-fetch data with the new filters
   };
@@ -220,7 +219,6 @@ export default function Enquiries(props) {
   };
 
   const onView = (event, id) => {
-    console.log(data)
     if (event)
       event.stopPropagation();
     if (id === 'new') {
@@ -237,7 +235,7 @@ export default function Enquiries(props) {
   };
 
   const onDelete = async (id) => {
-    const { response } = await remove(id);
+    const { response, error } = await remove(id);
     if (response && response.status === 204) {
       setPage(1);
       await fetchData(1, perPage, filters);
@@ -247,46 +245,45 @@ export default function Enquiries(props) {
 
     } else {
       showProgressBar(false)
-      toastError(toastMessages.DELETED.ERROR)
+      toastError(toastMessages.DELETED.ERROR + ' : ' + error.message)
     }
   }
 
   const onSubmit = async (values, newUser = false, isSaveAndNew) => {
-    showProgressBar(true);
-    let d = {};
+    showProgressBar(true);    
     const userId = getUserId();
-    const action = newUser ? post : update;
     const id = newUser ? 'new' : inActionData.id;
-    let _data = { ...values };
+    const action = newUser ? post : update;
+    let dataToSubmit = { ...values };
+    
     if (!newUser) {
       const oldData = data.find(p => p.id === id);
-      if (isEqual(oldData, _data)) {
+      if (isEqual(oldData, dataToSubmit)) {
         toastWarning(toastMessages.UPDATES.NO_CHANGES_MADE);
         showProgressBar(false);
         return;
-      }
-      if (isEqual(oldData.dp_path, _data.dp_path)) {
-        delete _data.dp_path;
+      }  
+      if (isEqual(oldData.dp_path, dataToSubmit.dp_path)) {
+        delete dataToSubmit.dp_path;
       }
     }
-
+  
     const cleanData = (obj) => {
-      Object.keys(obj).forEach(key => {
-        if (!['id', 'status', 'rescheduled_date', 'remarks'].includes(key)) {
-          delete obj[key];
-        }
-      });
-      return obj;
+      const allowedKeys = ['id', 'status', 'rescheduled_date', 'remarks'];
+      return Object.keys(obj)
+        .filter(key => allowedKeys.includes(key))
+        .reduce((acc, key) => {
+          acc[key] = obj[key];
+          return acc;
+        }, {});
     };
-
-
-    // Clean the data and update the state
-
+  
     if (role === "user") {
-      d = cleanData({ ..._data });
-      d.counsellor_id = userId;
+      dataToSubmit = { ...cleanData(dataToSubmit), counsellor_id: userId };
     }
-    const { response, error } = await action(role === "user" ? d : _data);
+  
+    const { response, error } = await action(dataToSubmit);
+  
     if (response && response.data) {
       setPage(1);  // Reset page to 1 to refresh data
       await fetchData(1, perPage, filters);  // Fetch data to ensure the latest data is loaded
@@ -296,13 +293,12 @@ export default function Enquiries(props) {
       } else {
         setInActionData({ id: response.data.id });
         amendScreenView('list');
-      }
-      showProgressBar(false);
+      }  
       toastSuccess(newUser ? toastMessages.CREATED.SUCCESS : toastMessages.UPDATES.SUCCESS);
     } else {
-      showProgressBar(false);
       toastError((newUser ? toastMessages.ERROR : toastMessages.UPDATES.ERROR) + ': ' + error.message);
-    }
+    }  
+    showProgressBar(false);
   };
 
   return <div className="overflow-hidden pl-3 pr-3">

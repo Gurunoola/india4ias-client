@@ -129,7 +129,6 @@ export default function Users(props) {
   }, [isLoading, data.length, totalCount]);
 
   const handleFilterChange = (newFilters) => {
-    console.log(newFilters)
     setFilters(newFilters);
     setPage(0); // Reset page to 0 to re-fetch data with the new filters
   };
@@ -141,8 +140,6 @@ export default function Users(props) {
   };
 
   const onView = (event, id) => {
-    console.log(data)
-    console.log(id)
     if (event)
       event.stopPropagation();
     if(id === 'new') {      

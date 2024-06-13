@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import AsyncDropdown from '../AsyncDropdown/Loadable';
-import FormBuilder from '../../components/formBuilder';
 import { getUserRole } from '../../services/userServices';
 import { fileToBase64 } from '../../utils/fileToBase64';
 import { get } from 'lodash'
@@ -30,24 +29,24 @@ export function Edit({ showProgressBar, data, title, id, onView, onFormSubmit })
 
   const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm({
     defaultValues: {
-      "name": "John Doe",
-      "gender": "male",
-      "dob": "1990-01-01",
-      "phone_number": "9876543210",
-      "alternate_phone_number": "9123456780",
-      "email": "john.doe@example.com",
-      "address": "123 Main St, Anytown, USA",
-      "qualification": "Bachelor of Science",
-      "course": "upsc",
-      "optional_subject": "Mathematics",
-      "attempts_given": 2,
-      "referral_source": "friends",
-      "counseling_satisfaction": "Very Satisfied",
-      "contact_preference": "1",
-      "status": "New",
-      "rescheduled_date": null,
-      "remarks": "Interested in advanced courses",
-      "dp_path": null
+      // "name": "John Doe",
+      // "gender": "male",
+      // "dob": "1990-01-01",
+      // "phone_number": "9876543210",
+      // "alternate_phone_number": "9123456780",
+      // "email": "john.doe@example.com",
+      // "address": "123 Main St, Anytown, USA",
+      // "qualification": "Bachelor of Science",
+      // "course": "upsc",
+      // "optional_subject": "Mathematics",
+      // "attempts_given": 2,
+      // "referral_source": "friends",
+      // "counseling_satisfaction": "Very Satisfied",
+      // "contact_preference": "1",
+      // "status": "New",
+      // "rescheduled_date": null,
+      // "remarks": "Interested in advanced courses",
+      // "dp_path": null
   }
   });
 

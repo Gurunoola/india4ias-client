@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import AsyncDropdown from '../AsyncDropdown/Loadable';
-import FormBuilder from '../../components/formBuilder';
 import { get } from 'lodash'
 import {
   useForm,
