@@ -3,6 +3,7 @@ import App from './index';
 import { events as EVENT } from '../ConstantManager';
 
 const { SHOW_SUCCESS_ALERT, SHOW_PROGRESSBAR } = EVENT.ALERTS;
+const { LIST_GET_REQUESTED } = EVENT.CONFIGURATIONS
 
 const mapStateToProps = state => ({ state });
 
@@ -13,6 +14,12 @@ const mapDispatchToProps = dispatch => ({
     },
     showProgressBar: status => {
       dispatch({ type: SHOW_PROGRESSBAR, status });
+    },
+    getAllConfigurations: data =>{
+      dispatch({ type: LIST_GET_REQUESTED });
+    },
+    setIsMobile: value =>{
+      dispatch({ type: 'isMobileEvent', value });
     }
   },
 });

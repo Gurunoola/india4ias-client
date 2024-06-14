@@ -5,12 +5,14 @@ import loginPagereducer from './containers/LoginPage/reducer';
 import logoutReducer from './containers/Logout/reducer';
 import asyncDropdownReducer from './containers/AsyncDropdown/reducer'
 import appReducer from './containers/App/reducer';
+import configurationsReducer from './containers/ConfigurationsView/reducer';
 
 export default function createReducer(injectedReducers = {}) {
 
   const combinedReducer = combineReducers({
     app: appReducer,
     auth: loginPagereducer,
+    configurations: configurationsReducer,
     logout: logoutReducer,
     asyncDropdown: asyncDropdownReducer,
     router: connectRouter(history),

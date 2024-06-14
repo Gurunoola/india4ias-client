@@ -1,6 +1,6 @@
 :root {
   --blue: #0F4C81;
-  --indigo: #340F81;
+  --indigo: #1679AB;
   --purple: #7A7ECD;
   --pink: #FAC8CD;
   --red: #D56062;
@@ -16,7 +16,7 @@
   --gray-dark: #434343;
   
   --primary: var(--blue);
-  --secondary: var(--blue);
+  --secondary: var(--indigo);
   --success: var(--green);
   --info: var(--cyan);
   --warning: var(--yellow);

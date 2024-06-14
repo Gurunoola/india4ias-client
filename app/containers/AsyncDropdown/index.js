@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {get, toUpper, capitalize, has, toLower} from 'lodash';
-import { globalConfigs } from '../../globalConfigs'
+import { localConfigs } from '../../localConfigs'
 import Select from 'react-select'
 import { Controller } from 'react-hook-form';
 
@@ -13,7 +13,7 @@ import {
 
 export default function AsyncDropdown(props) { //change for new component
 
-  const { dropDownOptions } = globalConfigs
+  const { dropDownOptions } = localConfigs
   const {
     NETWORK_ERROR,
     CLASSES: {

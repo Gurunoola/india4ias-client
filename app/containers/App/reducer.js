@@ -12,6 +12,8 @@ export const appReducer = (state = [], sagaResponse) => { // change for new comp
     case UNAUTORIZED:
       localStorage.removeItem('user');
       return { ...sagaResponse };
+    case 'isMobileEvent':
+      return {isMobile: sagaResponse.value}
     default:
       return state;
   }

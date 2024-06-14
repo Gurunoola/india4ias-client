@@ -1,0 +1,11 @@
+## Date: 2024-06-10
+    - ** branch=> usermanagment
+        - ** usermanagment done
+        - ** tried too implement the lazying loading
+        - ** filtering not workning afte the lazy  loading implementation
+            - ** implement filetr parames in server
+            - ** make changes to client to fecth the data
+    - ** Important files 
+        app/containers/EnquiriesView/index copy.js
+        app/containers/EnquiriesView/index copy 3- workingLazyLoading.js
+        app/components/table/index copy.js

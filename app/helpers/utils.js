@@ -1,6 +1,6 @@
 import moment from "moment";
-import { globalConfigs } from "../globalConfigs";
-import { isUndefined, isNull} from 'lodash'
+import { localConfigs } from "../localConfigs";
+import { isUndefined, isNull, filter} from 'lodash'
 export const capitalizeString = (text) => {
     const temp = text.replace(/([A-Z])/g, " $1");
     const title = temp.charAt(0).toUpperCase() + temp.slice(1);
@@ -28,7 +28,7 @@ export const isToday = (d)=>{
 };
 
 export const getUploadImageUrl = (img)=>{
-    const {appConfig: {uploadImageBaseUrl = '/' }} = globalConfigs
+    const {assets: { uploadImageBaseUrl = '/' }} = localConfigs
     return uploadImageBaseUrl+img;
 }
 
@@ -42,4 +42,29 @@ export const alterView = (mode) => {
       break;
   }
   return cl;
+}
+
+export const getSpecificConfigurtaions = (configs, name) => {
+    let returnData = {};
+    let tempReturnData
+    if(configs){
+        tempReturnData = filter(configs.data, function(o) { 
+            return o.config_name === name; 
+        });
+        returnData = tempReturnData[0].config_data;
+    }    
+  return returnData;
+}
+
+export const  getFullConfigurtaions = (data) => {
+    const result = {};
+    if(data)
+    data.forEach(item => {
+        result[item.config_name] = item.config_data;
+    });
+    return result;
+}
+
+export const camelCaseToSpaces = input => {
+    return _.startCase(_.camelCase(input));
 }

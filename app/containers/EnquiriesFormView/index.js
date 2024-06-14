@@ -19,12 +19,12 @@ import {
   alterView,
   isToday,
   dateFormat,
-  globalConfigs
+  localConfigs
 } from './imports';
 
 export default function EnquiriesForm(props) {
   const title = componentNameCapitalize;
-  const { appConfig, clientConfig } = globalConfigs;
+  const { clientConfig } = localConfigs;
   const {TABLE_LIMIT, TABLE_PAGE, POPULATE, DEFAULT_COL_SIZE} = config;
   const actionButtons = [];
   const columns = [
@@ -49,8 +49,8 @@ export default function EnquiriesForm(props) {
       },
     },
     { accessorKey: 'email', header: labels.EMAIL, size: 200 },
-    { accessorKey: 'course', header: labels.COURSE, size: 100, filterVariant: 'multi-select', filterSelectOptions: [...globalConfigs.dropDownOptions.course] },
-    { accessorKey: 'status', header: labels.STATUS, size: 100,  filterVariant: 'multi-select', filterSelectOptions: [...globalConfigs.dropDownOptions.status] },
+    { accessorKey: 'course', header: labels.COURSE, size: 100, filterVariant: 'multi-select', filterSelectOptions: [...localConfigs.dropDownOptions.course] },
+    { accessorKey: 'status', header: labels.STATUS, size: 100,  filterVariant: 'multi-select', filterSelectOptions: [...localConfigs.dropDownOptions.status] },
     {
       accessorKey: 'dob',
       header: `${labels.DOB}`,

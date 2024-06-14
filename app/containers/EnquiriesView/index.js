@@ -20,11 +20,12 @@ import {
   alterView,
   isToday,
   dateFormat,
-  globalConfigs,
+  localConfigs,
   getUploadImageUrl,
   ProfileImage,
   getUserRole,
-  getUserId
+  getUserId,
+  getFullConfigurtaions
 } from './imports';
 
 export default function Enquiries(props) {
@@ -117,8 +118,8 @@ export default function Enquiries(props) {
     },
     { accessorKey: 'email', header: labels.EMAIL, size: 200 },
     { accessorKey: 'counsellor_name', header: 'Counsellor Name', size: 200 },
-    { accessorKey: 'course', header: labels.COURSE, size: 100, filterVariant: 'multi-select', filterSelectOptions: [...globalConfigs.dropDownOptions.course] },
-    { accessorKey: 'status', header: labels.STATUS, size: 100, filterVariant: 'multi-select', filterSelectOptions: [...globalConfigs.dropDownOptions.status] },
+    { accessorKey: 'course', header: labels.COURSE, size: 100, filterVariant: 'multi-select', filterSelectOptions: [...localConfigs.dropDownOptions.course] },
+    { accessorKey: 'status', header: labels.STATUS, size: 100, filterVariant: 'multi-select', filterSelectOptions: [...localConfigs.dropDownOptions.status] },
     {
       accessorKey: 'dob',
       header: `${labels.DOB}`,
@@ -154,6 +155,9 @@ export default function Enquiries(props) {
       ['asyncDropdown']: {
         result
       },
+      configurations:{
+        result: globalConfigsResults
+      }
     },
   } = props;
 
@@ -163,6 +167,8 @@ export default function Enquiries(props) {
     toastWarning,
     toastError
   } = props.sagaMethods;
+
+  const globalConfigs = getFullConfigurtaions(globalConfigsResults && globalConfigsResults.data)
 
   result ? (data = result.data) : [];
 
