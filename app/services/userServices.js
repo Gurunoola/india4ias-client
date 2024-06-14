@@ -1,10 +1,10 @@
 import {get, keys, pick} from 'lodash';
 import SecureLS from 'secure-ls';
-import { globalConfigs } from '../globalConfigs';
+import { localConfigs } from '../localConfigs';
 
 export function getUserDataFromLocal() {
     try {
-        const ls = new SecureLS({ encodingType: 'aes', encryptionSecret: globalConfigs.appConfig.secretKey });
+        const ls = new SecureLS({ encodingType: 'aes', encryptionSecret: localConfigs.secretKey });
         const user = ls.get('user');
         return JSON.parse(user)
     } catch (error) {

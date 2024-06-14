@@ -3,6 +3,7 @@ import { events as EVENT } from '../ConstantManager';
 import { doServerRequest, constructEvents } from '../../services/axiosServices';
 import { logger } from '../../services';
 import { get } from 'lodash'
+import { localConfigs } from '../../localConfigs';
 const url = '/login';
 
 const {

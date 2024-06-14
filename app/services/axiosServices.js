@@ -1,14 +1,14 @@
 import axios from 'axios';
 import {get} from 'lodash';
 import { getAccessToken } from './userServices';
-import { globalConfigs } from '../globalConfigs';
+import { localConfigs } from '../localConfigs';
 import { events as EVENT } from '../containers/ConstantManager';
 
 
 const { NETWORK_ERROR, UNAUTORIZED } = EVENT
 
 export const doServerRequest = async ({ data, url, method, isguest=false }) => {
-  const {domain: DOMAIN, port: PORT, protocol: PROTOCOL} = globalConfigs.backendConfig;
+  const {domain: DOMAIN, port: PORT, protocol: PROTOCOL} = localConfigs.backendConfig;
   const baseDomain = `${PROTOCOL}://${DOMAIN}`;
   let baseUrl = baseDomain;
   if(PORT)
@@ -16,7 +16,7 @@ export const doServerRequest = async ({ data, url, method, isguest=false }) => {
   else
     baseUrl = `${baseDomain}/api`;
   const headers = {
-    ...globalConfigs.backendConfig.commonHeaders,
+    ...localConfigs.backendConfig.commonHeaders,
     Authorization: `Bearer ${getAccessToken()}`
   };
 

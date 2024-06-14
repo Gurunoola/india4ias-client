@@ -1,5 +1,5 @@
 import { events as EVENT } from '../ConstantManager';
-import { globalConfigs } from '../../globalConfigs';
+import { localConfigs } from '../../localConfigs';
 import SecureLS from 'secure-ls';
 const {
   LOGIN_GET_SUCCESS,
@@ -14,7 +14,7 @@ const { NETWORK_ERROR, UNAUTORIZED } = EVENT;
 const login = (state = {}, action) => {
   switch (action.type) {
     case LOGIN_GET_SUCCESS:
-      const ls = new SecureLS({encodingType: 'aes', encryptionSecret: globalConfigs.appConfig.secretKey});
+      const ls = new SecureLS({encodingType: 'aes', encryptionSecret: localConfigs.secretKey});
       ls.set('user', JSON.stringify({ ...action.result }));
       localStorage.setItem('user-dev', JSON.stringify({ ...action.result }));
       return { ...action, error: false };

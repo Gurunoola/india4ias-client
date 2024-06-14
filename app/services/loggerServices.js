@@ -1,7 +1,7 @@
 
-import { globalConfigs } from "../globalConfigs"
+import { localConfigs } from "../localConfigs"
 export const logger = (msg, type)=>{ 
-   const { tag, defaultSymbols, terminalColors } = globalConfigs.loggerConfigs
+   const { tag, defaultSymbols, terminalColors } = localConfigs.loggerConfigs
 
     var styleNone = '';
     const style = `color: white; background:${terminalColors[type]}; font-size:12px;`;

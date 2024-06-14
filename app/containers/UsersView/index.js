@@ -20,7 +20,7 @@ import {
   alterView,
   isToday,
   dateFormat,
-  globalConfigs,
+  localConfigs,
   getUploadImageUrl,
   ProfileImage
 } from './imports';

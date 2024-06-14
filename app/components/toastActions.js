@@ -1,21 +1,21 @@
 import { toast } from 'react-toastify';
 
-import { globalConfigs } from '../globalConfigs';
+import { localConfigs } from '../localConfigs';
 
 export const allToastActions = {
   toastSuccess: (msg = 'Ok') => {
-    toast.success(msg, {...globalConfigs.toastConfig});
+    toast.success(msg, {...localConfigs.toastConfig});
   },
   toastError: (msg = 'Error') => {
-    toast.error(msg, globalConfigs.toastConfig);
+    toast.error(msg, localConfigs.toastConfig);
   },
   toastWarning: (msg = 'Warning') => {
-    toast.warn(msg, globalConfigs.toastConfig);
+    toast.warn(msg, localConfigs.toastConfig);
   },
   toastInfo: (msg = 'Info') => {
-    toast.info(msg, globalConfigs.toastConfig);
+    toast.info(msg, localConfigs.toastConfig);
   },
   toastDefault: (msg = 'Default') => {
-    toast(msg, globalConfigs.toastConfig);
+    toast(msg, localConfigs.toastConfig);
   },
 };

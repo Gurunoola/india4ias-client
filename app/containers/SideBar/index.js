@@ -8,7 +8,10 @@ import { CustomToggle } from '../../components/customToggle';
 
 
 function SideBar(props) {
+
   const [role, setRole] = useState(props.userRole)
+  const { brandConfig, clientConfig } = props || {}
+  const { routes } = props
   return (
     <div
       className={`navbar-nav bg-gradient-primary min-vh-100 sidebar sidebar-dark accordion ${props.showSideBar ? 'show' : 'collapse'
@@ -17,15 +20,14 @@ function SideBar(props) {
     >
 
       <div className="d-flex flex-column">
-        <div className="clientLogoContainer border-right" style={{ height: '70px' }}>
-          <ClientLogo rootPage={props.rootPage} />
+        <div className="clientLogoContainer border-right" style={{ height: '12.4vh' }}>
+          <ClientLogo clientConfig={clientConfig} rootPage={props.rootPage} />
         </div>
-        
-        <div className="bd-highlight customScroll overflow-auto overflow-x-hidden" style={{ height: '85vh' }}>
+        { routes && routes[0] && <div className="bd-highlight customScroll overflow-auto overflow-x-hidden" style={{ height: '79vh' }}>
           <Nav variant="pills" activeKey="1">
-            {Object.keys(props.routes).map((item, index) => {
+            {Object.keys(props.routes[0]).map((item, index) => {
               const id = `navbarDropdown_${index}`;
-              const { title, path, icon, subMenu, roles, enabled } = props.routes[item];
+              const { title, path, icon, subMenu, roles, enabled } = props.routes[0][item];
               if (indexOf(roles, role) === -1 || !enabled) return undefined;
               // const subMenuClass = 
               if (!subMenu) {
@@ -65,9 +67,9 @@ function SideBar(props) {
           </Nav>
 
 
-        </div>
-        <div className="bd-highlight shadow pt-2" style={{ height: '3.5vh' }}>
-          <PoweredBy position="" />
+        </div> }
+        <div className="bd-highlight shadow pt-2" style={{  }}>
+          <PoweredBy position="" brandConfig={brandConfig} />
         </div>
       </div>
     </div>

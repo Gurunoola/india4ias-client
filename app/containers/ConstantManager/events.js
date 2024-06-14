@@ -16,6 +16,27 @@ export default {
     LOGIN_GET_FAILED: 'login/GetFailed',
     AUTH_RESET: 'auth/Reset',
   },
+  CONFIGURATIONS: {
+    LIST_GET_REQUESTED: 'configurations/GetRequested',
+    LIST_GET_SUCCESS: 'configurations/GetSuccess',
+    LIST_GET_FAILED: 'configurations/GetFailed',
+
+    GET_REQUESTED: 'configuration/GetRequested',
+    GET_SUCCESS: 'configuration/GetSuccess',
+    GET_FAILED: 'configuration/GetFailed',
+
+    POST_REQUESTED: 'configuration/PostRequested',
+    POST_SUCCESS: 'configuration/PostSuccess',
+    POST_FAILED: 'configuration/PostFailed',
+
+    UPDATE_REQUESTED: 'configuration/UpdatedRequested',
+    UPDATE_SUCCESS: 'configuration/UpdatedSuccess',
+    UPDATE_FAILED: 'configuration/UpdatedFailed',
+
+    DELETE_REQUESTED: 'configuration/DeleteRequested',
+    DELETE_SUCCESS: 'configuration/DeleteSuccess',
+    DELETE_FAILED: 'configuration/DeleteFailed',
+  },
   REGISTRATION: {
     REGISTRATION_POST_REQUESTED: 'registration/PostRequested',
     REGISTRATION_POST_SUCCESS: 'registration/PostSuccess',

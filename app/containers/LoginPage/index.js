@@ -7,7 +7,7 @@ import { getAccessToken, getUser, getUserRole } from '../../services/userService
 import { events as EVENT, toastMessages, labels } from '../ConstantManager';
 import {capitalize} from 'lodash';
 import { PoweredBy } from '../../components';
-import { globalConfigs } from '../../globalConfigs';
+import { localConfigs } from '../../localConfigs'
 
 const {
   LOGIN_GET_SUCCESS, LOGIN_GET_FAILED, LOGOUT_GET_REQUESTED,
@@ -17,12 +17,14 @@ const {
 const { NETWORK_ERROR, UNAUTORIZED } = EVENT
 
 export default function Login(props) {
+  const { assets: {client, brand} } = localConfigs;
+  const { globalConfigs } = props;
   const history = useHistory();
   const [loginError, setLoginError] = useState('d-none');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const { appConfig, clientConfig } = globalConfigs;
+  const { appConfig, clientConfig, brandConfig } = globalConfigs;
 
   const {
     toastSuccess,
@@ -47,7 +49,7 @@ export default function Login(props) {
     e.preventDefault();
     const email = e.currentTarget[0].value;
     const password = e.currentTarget[1].value;
-    props.sagaMethods.login({ email, password });
+    props.sagaMethods.login({ email, password, secretKey: localConfigs.secretKey });
   }
 
   function handelForgotPassword(e) {
@@ -101,7 +103,7 @@ export default function Login(props) {
               <div className="card-body text-center ">
                 <div className="brand-wrapper mb-3">
                   <img
-                    src={clientConfig.logo}
+                    src={client.logo}
                     alt={clientConfig.name}
                     className="logo"
                   />
@@ -238,7 +240,7 @@ export default function Login(props) {
                 }     
                 
                 <div className="">
-                  <PoweredBy color="black" fontSize="h12" position="none" />
+                  <PoweredBy brandConfig={brandConfig} color="black" fontSize="h12" position="none" />
                 </div>
               </div>
             </div>

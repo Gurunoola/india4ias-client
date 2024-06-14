@@ -9,9 +9,9 @@ import {
     NavItem
 } from '../../components';
 import { getUser } from '../../services/userServices';
-import { globalConfigs } from '../../globalConfigs';
 
 function TopBar(props) {
+    const {globalConfigs } = props
     const { showTopSearch, showTopBarAlertIcon, showTopBarMessagesIcon } = globalConfigs.appConfig;
     const [user, setUser] = useState({});
     function handleSideBar() {

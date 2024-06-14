@@ -24,7 +24,7 @@ export * from '../AsyncDropdown/Loadable';
 export * from '../../services';
 export * from '../../services/axiosServices';
 export * from "../../helpers/utils";
-export * from "../../globalConfigs";
+export * from "../../localConfigs";
 
 
 

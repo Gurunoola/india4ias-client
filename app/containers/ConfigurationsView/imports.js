@@ -12,16 +12,16 @@ export {
 export * from '../../components/toastActions';
 export * from './componentName';
 export * from '../ConstantManager';
-export * from './services';
+
 export * from './action'; 
 export * from './view';
 export * from './edit'
 export * from './toolBar';
 export * from '../../components';
-export * from './services';
+
 export * from './styles.css';
 export * from '../AsyncDropdown/Loadable';
-export * from '../../services';
+
 export * from '../../services/axiosServices';
 export * from "../../helpers/utils";
 export * from "../../localConfigs";

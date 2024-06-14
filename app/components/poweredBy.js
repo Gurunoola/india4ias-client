@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import { globalConfigs } from '../globalConfigs';
 import GlobalStyle from '../globalStyles';
 
 function PoweredBy(props) {
-    const { brandConfig } = globalConfigs;
+    const { brandConfig } = props;
     const { color = 'white', bgColor = "transparent", position = "absolute", fontSize = 'h10' } = props;
     const ret = brandConfig.showPoweredBy ? <>
         <div className={`brandLogo position-${position} text-${color} bg-${bgColor} ${fontSize}`} style={{ bottom: 0 }}>
