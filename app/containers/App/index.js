@@ -128,6 +128,7 @@ export default function App(props) {
               routes={routesConfig} 
               userRole={getUserRole()}
               brandConfig={brandConfig}  
+              clientConfig={clientConfig}
             />
             <div id="content-wrapper" className="d-flex flex-column bg-gray-100">
               <div id="content">

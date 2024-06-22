@@ -103,7 +103,7 @@ export default function Login(props) {
               <div className="card-body text-center ">
                 <div className="brand-wrapper mb-3">
                   <img
-                    src={client.logo}
+                    src={clientConfig.logo}
                     alt={clientConfig.name}
                     className="logo"
                   />
@@ -168,9 +168,9 @@ export default function Login(props) {
                   </form>
                   <p className="forgot-password-link">
                     { appConfig.showRegistartionLink ? <> New user? <Link to='/register'>{labels.BUTTON_REGISTRATION}</Link> &nbsp; | &nbsp;</> : undefined }
-                    <a href="#!" className="" onClick={() => { setShowForgotPassword(!showForgotPassword); }}>
+                    { appConfig.showForgotPassword ? <a href="#!" className="" onClick={() => { setShowForgotPassword(!showForgotPassword); }}>
                       {labels.BUTTON_FORGOT_PASSWORD}
-                    </a></p></>
+                    </a> : undefined }</p></>
                   :
                   <>
                     <p className="login-card-description mb-4 forgot-password-link">

@@ -1,6 +1,6 @@
 import moment from "moment";
 import { localConfigs } from "../localConfigs";
-import { isUndefined, isNull, filter} from 'lodash'
+import { isUndefined, isNull, filter, startCase, camelCase} from 'lodash'
 export const capitalizeString = (text) => {
     const temp = text.replace(/([A-Z])/g, " $1");
     const title = temp.charAt(0).toUpperCase() + temp.slice(1);
@@ -28,8 +28,11 @@ export const isToday = (d)=>{
 };
 
 export const getUploadImageUrl = (img)=>{
-    const {assets: { uploadImageBaseUrl = '/' }} = localConfigs
-    return uploadImageBaseUrl+img;
+    const { backendConfig:{port}, assets: {  uploadImageBaseUrl = '/' }} = localConfigs
+    if(port)
+        return uploadImageBaseUrl+`:${port}`+img;
+    else
+        return uploadImageBaseUrl+img;
 }
 
 export const alterView = (mode) => {
@@ -66,5 +69,5 @@ export const  getFullConfigurtaions = (data) => {
 }
 
 export const camelCaseToSpaces = input => {
-    return _.startCase(_.camelCase(input));
+    return startCase(camelCase(input));
 }

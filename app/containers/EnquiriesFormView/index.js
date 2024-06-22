@@ -19,12 +19,13 @@ import {
   alterView,
   isToday,
   dateFormat,
-  localConfigs
+  localConfigs,
+  getFullConfigurtaions
 } from './imports';
 
 export default function EnquiriesForm(props) {
   const title = componentNameCapitalize;
-  const { clientConfig } = localConfigs;
+  // const { clientConfig } = localConfigs;
   const {TABLE_LIMIT, TABLE_PAGE, POPULATE, DEFAULT_COL_SIZE} = config;
   const actionButtons = [];
   const columns = [
@@ -82,8 +83,13 @@ export default function EnquiriesForm(props) {
       ['asyncDropdown']: {
         result
       },
+      configurations:{
+        result: globalConfigsResults
+      }
     },
   } = props;
+
+  const { clientConfig } = getFullConfigurtaions(globalConfigsResults && globalConfigsResults.data)
 
   const {
     showProgressBar,
@@ -188,7 +194,7 @@ export default function EnquiriesForm(props) {
   return <div className="overflow-hidden pl-3 pr-3">
     <div className='row mt-3 mb-3'>
       <div className='col text-center'>
-        <img src={clientConfig.logo}  alt={clientConfig.name} className="logo"/><h4 className='p-3'>
+        <img src={clientConfig && clientConfig.logo}  alt={clientConfig && clientConfig.name} className="logo"/><h4 className='p-3'>
           {upperCase('Enquiry Form')}
           </h4>  </div>
       
@@ -205,7 +211,9 @@ export default function EnquiriesForm(props) {
           title={title}
           id={'new'}
           onView={onView}
-          onFormSubmit={onSubmit} />
+          onFormSubmit={onSubmit}
+            
+        />
       </div>
       {screen.mode === 'view' ? <div className='col  shadow-sm bg-white rounded-lg  p-0 mb-3 scrollAbleContent'>
         <View

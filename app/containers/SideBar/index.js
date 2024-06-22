@@ -29,7 +29,6 @@ function SideBar(props) {
               const id = `navbarDropdown_${index}`;
               const { title, path, icon, subMenu, roles, enabled } = props.routes[0][item];
               if (indexOf(roles, role) === -1 || !enabled) return undefined;
-              // const subMenuClass = 
               if (!subMenu) {
                 return <Nav.Item key={index} id="nav-dropdown" className=''>
                   <Link onClick={()=>{props.isMobile ? props.setShowSideBar(false) : undefined}} data-bs-toggle="tooltip" as={Link} className={`nav-link text-decoration-none text-capitalize ${subMenu ? 'dropdown-toggle' : ''} text-white p-2 pl-3 pr-3`} id={id} data-toggle={`${subMenu ? 'dropdown' : ''}`} to={path}>

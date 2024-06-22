@@ -12,6 +12,7 @@ import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { WidthProvider, Responsive } from "react-grid-layout";
 import './styles.css';
+import { Doughnut, Line, Bar, Pie } from 'react-chartjs-2';
 import {
   events as EVENT,
   defaults as DEFAULT,
@@ -35,8 +36,14 @@ export default function Dashboard(props) { //change for new component
   const page = 1;
   const populate = 'addresses,parents,class';
 
-  const chartLabels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
-  const chartData = [12, 19, 3, 5, 2, 3];
+  // const chartLabels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
+  // const chartData = [12, 19, 3, 5, 2, 3];
+
+  // const chartLabels = ["converted","qualified","rescheduled","unqualified"];
+  // const chartData = [9,5,5,11]
+
+ const chartLabels = ["Facebook","friends","instagram","newspaper","other","YouTube"];
+ const chartData = [8,10,16,11,6,9];
 
   const [layout, setLayout] = useState({ ...JSON.parse(localStorage.getItem('rgl-8')) } || {});
 
@@ -276,7 +283,14 @@ export default function Dashboard(props) { //change for new component
             />
           </div>
           <div key="1" className="shadow-sm" data-grid={{ w: 4, h: 9, x: 0, y: 0, minW: 2 }}>
-            <Chart title='Placements' data={chartData} type={'Bar'} labels={chartLabels} description={'Some Desc goes here'} />
+            <Line data={{"labels":["2024-06-14","2024-06-17"],"datasets":[{"label":"Total Enquiries Over Time","data":[30,30],"backgroundColor":"rgba(75, 192, 192, 0.2)","borderColor":"rgba(75, 192, 192, 1)","borderWidth":1}]}} />
+            {/* <Chart type={'line'} title='Placements' options={{"labels":["2024-06-14","2024-06-17"],"datasets":[{"label":"Total Enquiries Over Time","data":[30,30],"backgroundColor":"rgba(75, 192, 192, 0.2)","borderColor":"rgba(75, 192, 192, 1)","borderWidth":1}]}} /> */}
+          </div>
+          <div key='12' className="shadow-sm" data-grid={{ w: 4, h: 9, x: 0, y: 0, minW: 2 }}>
+          <Doughnut data={{"labels":["Facebook","friends","instagram","newspaper","other","YouTube"],"datasets":[{"data":[8,10,16,11,6,9],"backgroundColor":["rgba(255, 99, 132, 0.2)","rgba(54, 162, 235, 0.2)","rgba(255, 206, 86, 0.2)","rgba(75, 192, 192, 0.2)","rgba(153, 102, 255, 0.2)","rgba(255, 159, 64, 0.2)"],"borderColor":["rgba(255, 99, 132, 1)","rgba(54, 162, 235, 1)","rgba(255, 206, 86, 1)","rgba(75, 192, 192, 1)","rgba(153, 102, 255, 1)","rgba(255, 159, 64, 1)"],"borderWidth":1}]}} />
+          </div>
+          <div key='13' className="shadow-sm" data-grid={{ w: 4, h: 9, x: 0, y: 0, minW: 2 }}>
+          <Bar data={{"labels":["Facebook","friends","instagram","newspaper","other","YouTube"],"datasets":[{"data":[8,10,16,11,6,9],"backgroundColor":["rgba(255, 99, 132, 0.2)","rgba(54, 162, 235, 0.2)","rgba(255, 206, 86, 0.2)","rgba(75, 192, 192, 0.2)","rgba(153, 102, 255, 0.2)","rgba(255, 159, 64, 0.2)"],"borderColor":["rgba(255, 99, 132, 1)","rgba(54, 162, 235, 1)","rgba(255, 206, 86, 1)","rgba(75, 192, 192, 1)","rgba(153, 102, 255, 1)","rgba(255, 159, 64, 1)"],"borderWidth":1}]}} />
           </div>
           <div key="2" className="shadow-sm" data-grid={{ w: 4, h: 12, x: 4, y: 0, minW: 2 }}>
             <Chart title='Annual Performance' data={chartData} type={'Donught'} labels={chartLabels} description={'Some Desc goes here'} />

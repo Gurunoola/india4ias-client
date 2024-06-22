@@ -2,6 +2,7 @@ import { labels } from "./containers/ConstantManager";
 
 const backendConfig = {
   protocol: 'http',
+  // domain: 'api.vocable.pro',
   domain: 'localhost',
   port: 8000,
   commonHeaders: {
@@ -92,7 +93,7 @@ const assets = {
     icon: require('./img/brandLogoIcon.png'),
     favIcon: require('./img/favicon.png'),
   },
-  uploadImageBaseUrl: `${backendConfig.protocol}://${backendConfig.domain}:${backendConfig.port}`
+  uploadImageBaseUrl: `${backendConfig.protocol}://${backendConfig.domain}`
 }
 
 

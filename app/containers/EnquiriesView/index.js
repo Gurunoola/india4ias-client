@@ -165,7 +165,8 @@ export default function Enquiries(props) {
     showProgressBar,
     toastSuccess,
     toastWarning,
-    toastError
+    toastError,
+    logout
   } = props.sagaMethods;
 
   const globalConfigs = getFullConfigurtaions(globalConfigsResults && globalConfigsResults.data)
@@ -177,7 +178,10 @@ export default function Enquiries(props) {
     try {
       const filterParams = filters.map(filter => `${toLower(filter.id)}=${filter.value}`).join('&');
       const sortParams = sorting.length > 0 ? `sort_by=${toLower(sorting[0].id)}&sort_order=${sorting[0].desc ? 'desc' : 'asc'}` : '';
-      const { response } = await getList({ page, perPage, filterParams, sortParams });
+      const { response, error } = await getList({ page, perPage, filterParams, sortParams });
+      if(error){
+        toastError(error.message);
+      }
       const newData = response.data.data;
       setData(prevData => {
         const mergedData = page === 1 ? newData : [...prevData, ...newData];
